@@ -1,5 +1,13 @@
-import express from 'express'
-import configure from './routers'
+import Express, { json } from 'express';
+import userController from './controllers/user.controller';
 
-const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 5000;
+
+const app = Express();
+app.use(json());
+
+app.use('/users', userController);
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});

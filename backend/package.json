@@ -11,8 +11,11 @@
         "sequelize": "^6.30.0"
     },
     "devDependencies": {
+        "@types/express": "^4.17.17",
         "@types/node": "^18.15.11",
         "sequelize-cli": "^6.6.0",
+        "ts-node": "^10.9.1",
+        "tslib": "^2.5.0",
         "typescript": "^5.0.3"
     }
 }

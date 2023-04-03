@@ -1,10 +1,14 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "outDir": "dist",
-        "sourceMap": true,
-        "types": ["node"]
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "dist",
+      "rootDir": "./",
+      "strict": true,  
+      "sourceMap": true,
+      "types": ["node"],
+      "allowJs": true,
+      "esModuleInterop": true, 
     },
     "include": ["**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
