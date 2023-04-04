@@ -3,10 +3,9 @@ import { Router } from 'express';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
-import { registerInterface } from '../../types';
 import { registerValidation } from '../scripts/validationTypes';
 
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 import type { ValidationError } from 'express-validator';
 
 const router = Router();
@@ -24,11 +23,11 @@ const errorFormatter = ({
 router.post(
     '/register',
     registerValidation,
-    async (req: registerInterface, res: Response) => {
-        
-        const validationErrors = validationResult(req).formatWith(errorFormatter);
+    async (req: Request, res: Response) => {
+        const validationErrors =
+            validationResult(req).formatWith(errorFormatter);
         if (!validationErrors.isEmpty()) {
-            return res.send({ errors: validationErrors.array() });
+            return res.status(400).send({ errors: validationErrors.array() });
         }
 
         const userData = req.body;
