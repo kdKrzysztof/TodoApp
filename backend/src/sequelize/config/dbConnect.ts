@@ -19,6 +19,7 @@ const sequelize = new Sequelize(
 sequelize.authenticate().catch((e) => {
     console.log(e);
 });
+
 sequelize.sync().catch((e) => {
     console.log(e);
 });
