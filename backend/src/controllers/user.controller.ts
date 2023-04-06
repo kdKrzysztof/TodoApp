@@ -1,11 +1,12 @@
 import userModel from '../sequelize/models/user.model';
-import { ErrorRequestHandler, Router } from 'express';
+import { Router } from 'express';
 import * as argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import { registerValidation, errorFormatter } from '../scripts/validationTypes';
 import type { Response, Request } from 'express';
 import 'express-async-errors';
+import { statusError, errorHandler } from '../middleware/errorHandler';
+import generateJWT from '../scripts/generateJWT';
 
 const router = Router();
 
@@ -30,8 +31,10 @@ router.post(
                     username: userData.username,
                 },
             })
-            .catch((err) => {
-                return res.status(403).send({ error: err });
+            .catch(() => {
+                throw new Error(
+                    'An unexpected error while searching for user data occured, please try again later'
+                );
             });
 
         const emailExists = await userModel
@@ -40,24 +43,29 @@ router.post(
                     email: userData.email,
                 },
             })
-            .catch((err) => {
-                return res.status(500).send({ error: err });
+            .catch(() => {
+                throw new Error(
+                    'An unexpected error while searching for user data occured, please try again later'
+                );
             });
 
         if (userExists !== null) {
-            throw new Error('This username is taken');
+            throw new statusError('This username is taken', 409);
         }
 
         if (emailExists !== null) {
-            throw new Error(
-                'Email is already in use. Login to account with this email.'
+            throw new statusError(
+                'Email is already in use. Login to account with this email.',
+                409
             );
         }
 
         const hashedPassword = await argon2
             .hash(userData.password)
             .catch(() => {
-                return res.sendStatus(500);
+                throw new Error(
+                    'An unexpected error while hashing password occurred, please try again later'
+                );
             });
 
         userModel
@@ -70,20 +78,30 @@ router.post(
                 return res.status(200).send('Account has been created.');
             })
             .catch((err) => {
-                return res.status(500).send({ error: err });
+                throw new Error(
+                    'An unexpected error while creating user occured, please try again later'
+                );
             });
     }
 );
 
-router.post('/login', async (req, res) => {});
+router.post('/login', async (req, res) => {
+    const userData = req.body;
+
+    const user = await userModel
+        .findOne({
+            where: {
+                email: userData.email,
+            },
+        })
+        .catch(() => {
+            throw new Error(
+                'An unexpected error while searching for user data occured, please try again later'
+            );
+        });
+});
 
 router.post('/logout', async (req, res) => {});
-
-const errorHandler: ErrorRequestHandler = async (err, req, res, next) => {
-    return res.status(401).send({
-        message: err.message,
-    });
-};
 
 router.use(errorHandler);
 
