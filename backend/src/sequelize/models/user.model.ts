@@ -1,6 +1,7 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
 import Todo from './todo.model';
+import refreshToken from './refreshToken.model';
 
 const User = db.define('users', {
     id: {
@@ -31,10 +32,16 @@ const User = db.define('users', {
 });
 
 User.hasMany(Todo, {
-    as: 'user',
+    as: 'todoItem',
     foreignKey: 'userId',
 });
 
-Todo.belongsTo(User);
+User.hasOne(refreshToken, {
+    as: 'refreshToken',
+    foreignKey: 'userId',
+});
+
+Todo.belongsTo(User, { foreignKey: 'userId' });
+refreshToken.belongsTo(User, { foreignKey: 'userId' });
 
 export default User;
