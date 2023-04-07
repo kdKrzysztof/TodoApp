@@ -99,6 +99,24 @@ router.post('/login', async (req, res) => {
                 'An unexpected error while searching for user data occured, please try again later'
             );
         });
+
+    if (!user?.password) {
+        throw new statusError('Wrong credentials', 401);
+    }
+
+    if (!(await argon2.verify(user.password, userData.password))) {
+        throw new statusError('Wrong credentials', 401);
+    }
+
+    const token = await generateJWT(user.id, user.email);
+    return res.status(200).json({
+        ...token,
+        userData: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+        },
+    });
 });
 
 router.post('/logout', async (req, res) => {});
