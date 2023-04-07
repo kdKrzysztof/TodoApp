@@ -1,7 +1,15 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
 
-const refreshToken = db.define('refreshToken', {
+import type { Model } from 'sequelize';
+
+interface refreshTokenInterface extends Model {
+    userId: number;
+    refreshToken: string;
+    expiration: Date;
+}
+
+const refreshToken = db.define<refreshTokenInterface>('refreshToken', {
   userId: {
     type: DataTypes.INTEGER(),
   },
