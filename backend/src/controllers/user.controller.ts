@@ -2,18 +2,25 @@ import userModel from '../sequelize/models/user.model';
 import refreshTokenModel from '../sequelize/models/refreshToken.model';
 import * as argon2 from 'argon2';
 import {
+    errorFormatter,
     registerValidation,
     loginValidation,
-    errorFormatter,
+    logoutValidation,
 } from '../scripts/validationTypes';
 import { statusError, errorHandler } from '../middleware/errorHandler';
 import generateJWT from '../scripts/generateJWT';
-import { register_userData, login_userData } from '../../types';
+
+import type {
+    register_userData,
+    login_userData,
+    refreshToken_Body,
+} from '../../types';
 
 import { Router } from 'express';
 import type { Response, Request } from 'express';
 import { validationResult } from 'express-validator';
 import 'express-async-errors';
+
 const router = Router();
 
 router.post(
@@ -114,21 +121,79 @@ router.post('/login', loginValidation, async (req: Request, res: Response) => {
     }
 });
 
-router.post('/logout', async (req: Request, res: Response) => {
-    const refreshToken = req.body.refreshToken;
+router.post(
+    '/logout',
+    logoutValidation,
+    async (req: Request, res: Response) => {
+        try {
+            const validationErrors =
+                validationResult(req).formatWith(errorFormatter);
 
+            if (!validationErrors.isEmpty()) {
+                return res.status(400).send({
+                    errors: validationErrors.array(),
+                });
+            }
+
+            const refreshToken: refreshToken_Body = req.body.refreshToken;
+
+            await refreshTokenModel.destroy({
+                where: {
+                    refreshToken: refreshToken,
+                },
+            });
+            return res.sendStatus(204);
+        } catch (err) {
+            console.error((err as Error).stack);
+            throw new Error(
+                `Unexpected error occured while trying to log out. Try again later`
+            );
+        }
+    }
+);
+
+router.post('/refreshToken', async (req: Request, res: Response) => {
     try {
-        await refreshTokenModel.destroy({
+        const validationErrors =
+            validationResult(req).formatWith(errorFormatter);
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).send({
+                errors: validationErrors.array(),
+            });
+        }
+
+        const refreshToken: refreshToken_Body = req.body.refreshToken;
+
+        const refTokenData = await refreshTokenModel.findOne({
             where: {
                 refreshToken: refreshToken,
             },
         });
-        return res.sendStatus(204);
+
+        if (!refTokenData?.refreshToken) {
+            throw new statusError('Refresh token not found', 404);
+        }
+
+        if (new Date(refTokenData?.expiration) < new Date()) {
+            throw new statusError('Refresh token expired', 401);
+        }
+
+        const user = await userModel.findOne({
+            where: {
+                id: refTokenData.userId,
+            },
+        });
+
+        const newToken = await generateJWT(
+            user?.id as number,
+            user?.email as string
+        );
+
+        res.status(200).json(newToken);
     } catch (err) {
         console.error((err as Error).stack);
-        throw new Error(
-            `Unexpected error occured while trying to log out. Try again later`
-        );
+        throw new Error(`Server couldn't refresh token`);
     }
 });
 
