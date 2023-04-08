@@ -25,6 +25,9 @@ export const registerValidation = [
         .withMessage(
             'Invalid username length, make sure your username is greater than 3 and less than 30 letters'
         )
+        .not()
+        .isNumeric()
+        .withMessage(`You can't have only numbers in username`)
         .isAlphanumeric()
         .withMessage(`Invalid username, can't contain special characters`),
     check('email')
@@ -49,6 +52,19 @@ export const registerValidation = [
 ];
 
 export const loginValidation = [
-    check('email').isEmail().withMessage('Email is invalid'),
-    check('password').isEmpty().withMessage('Password is required'),
+    check('email')
+        .exists()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Email is invalid'),
+    check('password').exists().withMessage('Password is required'),
+];
+
+export const logoutValidation = [
+    check('refreshToken')
+        .exists()
+        .withMessage('Refresh token is required')
+        .not()
+        .isEmpty()
+        .withMessage(`Refresh token doesn't exist`)
 ];
