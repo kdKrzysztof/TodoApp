@@ -47,3 +47,8 @@ export const registerValidation = [
             'Password is not strong enough. Your password must be at least 8 characters long. Must contain min. 1 upper case letter, 1 number and 1 special character'
         ),
 ];
+
+export const loginValidation = [
+    check('email').isEmail().withMessage('Email is invalid'),
+    check('password').isEmpty().withMessage('Password is required'),
+];
