@@ -30,7 +30,7 @@ const generateJWT = async (userId: number, userEmail: string) => {
         },
     });
 
-    const expiresAt = addHours(4);
+    const expiresAt = addHours(2);
 
     await refreshTokenModel.create({
         userId: userId,
@@ -38,7 +38,7 @@ const generateJWT = async (userId: number, userEmail: string) => {
         expiration: expiresAt,
     });
 
-    return {token, newRefreshToken}
+    return { token, newRefreshToken };
 };
 
 export default generateJWT;
