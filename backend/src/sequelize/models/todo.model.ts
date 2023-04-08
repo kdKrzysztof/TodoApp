@@ -1,15 +1,7 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
-import User from './user.model';
 
-import type { Model } from 'sequelize';
-
-interface TodoInterface extends Model {
-    todoId: number;
-    userId: number;
-    text: string;
-    date: Date;
-}
+import type { TodoInterface } from '../../../types';
 
 const Todo = db.define<TodoInterface>('users', {
     todoId: {
@@ -26,11 +18,11 @@ const Todo = db.define<TodoInterface>('users', {
     },
     date: {
         type: DataTypes.DATEONLY,
-        allowNull: true
+        allowNull: true,
     },
     isCompleted: {
-        type: DataTypes.BOOLEAN
-    }
+        type: DataTypes.BOOLEAN,
+    },
 });
 
 export default Todo;
