@@ -4,7 +4,7 @@ import * as argon2 from 'argon2';
 import {
     registerValidation,
     loginValidation,
-    validationError
+    errorFormatter,
 } from '../scripts/validationTypes';
 import { statusError, errorHandler } from '../middleware/errorHandler';
 import generateJWT from '../scripts/generateJWT';
@@ -12,6 +12,7 @@ import { register_userData, login_userData } from '../../types';
 
 import { Router } from 'express';
 import type { Response, Request } from 'express';
+import { validationResult } from 'express-validator';
 import 'express-async-errors';
 const router = Router();
 
@@ -20,7 +21,14 @@ router.post(
     registerValidation,
     async (req: Request, res: Response) => {
         try {
-            validationError(req, res)
+            const validationErrors =
+                validationResult(req).formatWith(errorFormatter);
+
+            if (!validationErrors.isEmpty()) {
+                return res.status(400).send({
+                    errors: validationErrors.array(),
+                });
+            }
 
             const userData: register_userData = req.body;
 
@@ -66,7 +74,14 @@ router.post(
 
 router.post('/login', loginValidation, async (req: Request, res: Response) => {
     try {
-        validationError(req, res)
+        const validationErrors =
+            validationResult(req).formatWith(errorFormatter);
+
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).send({
+                errors: validationErrors.array(),
+            });
+        }
 
         const userData: login_userData = req.body;
 
@@ -110,6 +125,7 @@ router.post('/logout', async (req: Request, res: Response) => {
         });
         return res.sendStatus(204);
     } catch (err) {
+        console.error((err as Error).stack);
         throw new Error(
             `Unexpected error occured while trying to log out. Try again later`
         );
