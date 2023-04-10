@@ -6,10 +6,15 @@
       "rootDir": "./",
       "strict": true,  
       "sourceMap": true,
-      "types": ["node"],
       "allowJs": true,
       "esModuleInterop": true, 
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "types": [
+        "mocha",
+        "node",
+      ],
     },
-    "include": ["**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "include": ["src", "tests", "/**/*.ts"],
+    "exclude": ["node_modules"]
 }
