@@ -1,11 +1,11 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('x-access-token') as string;
 
     if (!token) {
-        return res.status(401).json({ error: true, message: 'Missing token' });
+        return res.status(401).json({ message: 'Missing token' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded) => {
