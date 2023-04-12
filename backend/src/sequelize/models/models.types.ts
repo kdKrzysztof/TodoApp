@@ -1,4 +1,4 @@
-import type { Model } from 'sequelize';
+import type { Model } from "sequelize";
 
 export interface refreshTokenInterface extends Model {
     userId: number;
@@ -18,19 +18,4 @@ export interface UserInterface extends Model {
     username: string;
     email: string;
     password: string;
-}
-
-export interface register_userData {
-    username: string;
-    email: string;
-    password: string;
-}
-
-export interface login_userData {
-    email: string;
-    password: string;
-}
-
-export interface refreshToken_Body {
-    refreshToken: string;
 }

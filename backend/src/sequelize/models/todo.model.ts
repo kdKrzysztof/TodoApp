@@ -1,7 +1,7 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
 
-import type { TodoInterface } from '../../../types';
+import type { TodoInterface } from './models.types';
 
 const Todo = db.define<TodoInterface>('users', {
     todoId: {

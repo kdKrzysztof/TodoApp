@@ -68,3 +68,15 @@ export const logoutValidation = [
         .isEmpty()
         .withMessage(`Refresh token doesn't exist`)
 ];
+
+export const addValidation = [
+    check('todo_title')
+        .exists()
+        .withMessage('Todo title is required')
+        .not()
+        .isEmpty()
+        .withMessage('Todo title is required'),
+    check('desc')
+        .exists()
+        .withMessage('Todo desc is required')
+]

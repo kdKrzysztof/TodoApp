@@ -1,6 +1,6 @@
 import Express, { json } from 'express';
-import userController from './src/controllers/user.controller';
-import todoController from './src/controllers/todo.controller';
+import userController from './src/controllers/user/user.controller';
+import todoController from './src/controllers/todo/todo.controller';
 import { errorHandler } from './src/middleware/errorHandler';
 
 const port = process.env.PORT || 5000;

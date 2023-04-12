@@ -2,7 +2,7 @@ import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
 import Todo from './todo.model';
 import refreshToken from './refreshToken.model';
-import type { UserInterface } from '../../../types';
+import type { UserInterface } from './models.types';
 
 const User = db.define<UserInterface>('users', {
     id: {

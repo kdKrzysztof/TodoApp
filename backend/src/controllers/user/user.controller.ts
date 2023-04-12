@@ -1,20 +1,20 @@
-import userModel from '../sequelize/models/user.model';
-import refreshTokenModel from '../sequelize/models/refreshToken.model';
+import userModel from '../../sequelize/models/user.model';
+import refreshTokenModel from '../../sequelize/models/refreshToken.model';
 import * as argon2 from 'argon2';
 import {
     errorFormatter,
     registerValidation,
     loginValidation,
     logoutValidation,
-} from '../scripts/validationTypes';
-import { statusError, errorHandler } from '../middleware/errorHandler';
-import generateJWT from '../scripts/generateJWT';
+} from '../../scripts/validationTypes';
+import { statusError, errorHandler } from '../../middleware/errorHandler';
+import generateJWT from '../../scripts/generateJWT';
 
 import type {
     register_userData,
     login_userData,
     refreshToken_Body,
-} from '../../types';
+} from './user.types';
 
 import { Router } from 'express';
 import type { Response, Request } from 'express';
