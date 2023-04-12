@@ -15,9 +15,9 @@ import type {
     login_userData,
     refreshToken_Body,
 } from './user.types';
+import type { Response, Request } from 'express';
 
 import { Router } from 'express';
-import type { Response, Request } from 'express';
 import { validationResult } from 'express-validator';
 import 'express-async-errors';
 
@@ -64,7 +64,7 @@ router.post(
 
             const hashedPassword = await argon2.hash(userData.password);
 
-            userModel.create({
+            await userModel.create({
                 username: userData.username,
                 email: userData.email,
                 password: hashedPassword,
