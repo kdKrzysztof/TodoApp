@@ -20,7 +20,7 @@ sequelize.authenticate().catch((e) => {
     console.log(e);
 });
 
-sequelize.sync().catch((e) => {
+sequelize.sync({ alter: true }).catch((e) => {
     console.log(e);
 });
 
