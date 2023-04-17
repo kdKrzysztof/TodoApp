@@ -29,12 +29,16 @@ export const registerValidation = [
         .isNumeric()
         .withMessage(`You can't have only numbers in username`)
         .isAlphanumeric()
-        .withMessage(`Invalid username, can't contain special characters`),
+        .withMessage(`Invalid username, can't contain special characters`)
+        .custom((value) => !/\s/.test(value))
+        .withMessage('No spaces are allowed in the username'),
     check('email')
         .exists()
         .withMessage('Email address is required')
         .isEmail()
-        .withMessage('Invalid email format'),
+        .withMessage('Invalid email format')
+        .custom((value) => !/\s/.test(value))
+        .withMessage('No spaces are allowed in the email'),
     check('password')
         .exists()
         .withMessage('Password is required')
@@ -48,7 +52,9 @@ export const registerValidation = [
         })
         .withMessage(
             'Password is not strong enough. Your password must be at least 8 characters long. Must contain min. 1 upper case letter, 1 number and 1 special character'
-        ),
+        )
+        .custom((value) => !/\s/.test(value))
+        .withMessage('No spaces are allowed in the password'),
 ];
 
 export const loginValidation = [
@@ -69,12 +75,15 @@ export const logoutValidation = [
         .withMessage(`Refresh token doesn't exist`),
 ];
 
-export const addValidation = [
+export const todoAddValidation = [
     check('Title')
         .exists()
         .withMessage('Todo title is required')
         .not()
         .isEmpty()
-        .withMessage('Todo title is required'),
+        .withMessage('Todo title is required')
+        .trim()
+        .notEmpty()
+        .withMessage(`Todo title can't be empty`),
     check('Desc').exists().withMessage('Todo desc is required'),
 ];
