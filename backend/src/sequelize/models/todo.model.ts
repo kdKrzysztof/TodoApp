@@ -1,6 +1,5 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
-import User from './user.model'
 import type { TodoInterface } from './models.types';
 
 const Todo = db.define<TodoInterface>('Todos', {
@@ -21,7 +20,4 @@ const Todo = db.define<TodoInterface>('Todos', {
     },
 });
 
-Todo.belongsTo(User, { foreignKey: 'userId' });
-
 export default Todo;
-

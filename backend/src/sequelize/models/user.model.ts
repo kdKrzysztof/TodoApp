@@ -42,4 +42,7 @@ User.hasOne(refreshToken, {
     foreignKey: 'userId',
 });
 
+Todo.belongsTo(User, { foreignKey: 'userId' });
+refreshToken.belongsTo(User, { foreignKey: 'userId' });
+
 export default User;
