@@ -91,9 +91,6 @@ router.delete('/:id', async (req: JwtPayload, res: Response) => {
         }
 
         const todoId = req.params.id;
-        if (!todoId) {
-            throw new statusError(`TodoId can't be null or undefined`, 400);
-        }
 
         const foundTodoItem = await todoModel.findOne({
             where: {
@@ -109,7 +106,7 @@ router.delete('/:id', async (req: JwtPayload, res: Response) => {
             throw new statusError('Todo item not found', 404);
         }
     } catch (err) {
-        console.log((err as Error).stack);
+        console.error((err as Error).stack);
         throw err;
     }
 });
