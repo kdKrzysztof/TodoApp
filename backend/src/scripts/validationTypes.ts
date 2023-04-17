@@ -28,17 +28,17 @@ export const registerValidation = [
         .not()
         .isNumeric()
         .withMessage(`You can't have only numbers in username`)
-        .isAlphanumeric()
-        .withMessage(`Invalid username, can't contain special characters`)
-        .custom((value) => !/\s/.test(value))
-        .withMessage('No spaces are allowed in the username'),
+        .matches(/^\w+$/)
+        .withMessage(
+            'Username must not contain any spaces or special characters'
+        ),
     check('email')
         .exists()
         .withMessage('Email address is required')
         .isEmail()
-        .withMessage('Invalid email format')
-        .custom((value) => !/\s/.test(value))
-        .withMessage('No spaces are allowed in the email'),
+        .withMessage(
+            'Invalid email format. Please enter a valid email address with correct format'
+        ),
     check('password')
         .exists()
         .withMessage('Password is required')
