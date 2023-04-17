@@ -1,4 +1,4 @@
-import type { Model } from "sequelize";
+import type { Model } from 'sequelize';
 
 export interface refreshTokenInterface extends Model {
     userId: number;
@@ -9,8 +9,10 @@ export interface refreshTokenInterface extends Model {
 export interface TodoInterface extends Model {
     todoId: number;
     userId: number;
-    text: string;
-    date: Date;
+    title: string;
+    desc: string;
+    expiresIn: Date;
+    createdAt: Date;
 }
 
 export interface UserInterface extends Model {
