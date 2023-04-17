@@ -9,7 +9,7 @@ export class statusError extends Error {
     }
 }
 
-export const errorHandler: ErrorRequestHandler = async (err, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = async (err, req, res) => {
     console.log(err.message)
     return res.status(err.status || 500).send({
         message: err.message,
