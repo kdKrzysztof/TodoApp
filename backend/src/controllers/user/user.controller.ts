@@ -71,14 +71,8 @@ router.post(
             });
             return res.status(200).send('Account has been created.');
         } catch (err) {
-            if (err instanceof statusError) {
-                throw err;
-            } else {
-                console.error((err as Error).stack);
-                throw new Error(
-                    'An unexpected error while creating user occured, please try again later'
-                );
-            }
+            console.error((err as Error).stack);
+            throw err;
         }
     }
 );
@@ -120,14 +114,8 @@ router.post('/login', loginValidation, async (req: Request, res: Response) => {
             },
         });
     } catch (err) {
-        if (err instanceof statusError) {
-            throw err;
-        } else {
-            console.error((err as Error).stack);
-            throw new Error(
-                'An unexpected error while creating user occured, please try again later'
-            );
-        }
+        console.error((err as Error).stack);
+        throw err;
     }
 });
 
@@ -154,14 +142,8 @@ router.post(
             });
             return res.sendStatus(204);
         } catch (err) {
-            if (err instanceof statusError) {
-                throw err;
-            } else {
-                console.error((err as Error).stack);
-                throw new Error(
-                    'An unexpected error while creating user occured, please try again later'
-                );
-            }
+            console.error((err as Error).stack);
+            throw err;
         }
     }
 );
@@ -206,14 +188,8 @@ router.post('/refreshToken', async (req: Request, res: Response) => {
 
         res.status(200).json(newToken);
     } catch (err) {
-        if (err instanceof statusError) {
-            throw err;
-        } else {
-            console.error((err as Error).stack);
-            throw new Error(
-                'An unexpected error while creating user occured, please try again later'
-            );
-        }
+        console.error((err as Error).stack);
+        throw err;
     }
 });
 
