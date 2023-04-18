@@ -2,10 +2,8 @@ import todoModel from '../../sequelize/models/todo.model';
 import authMiddleware from '../../middleware/auth';
 import { Router } from 'express';
 import { errorHandler, statusError } from '../../middleware/errorHandler';
-import { validationResult } from 'express-validator';
 import {
     todoAddValidation,
-    errorFormatter,
     todoTitleUpdateValidation,
     todoExpInUpdateValidation,
 } from '../../scripts/validationTypes';
@@ -13,6 +11,7 @@ import type { Response } from 'express';
 import type { AddTodo, TodoListData } from './todo.types';
 import type { JwtPayload } from 'jsonwebtoken';
 import { UpdateTodoRecord } from './todoUpdateRecord.class';
+import getValidationErrors from '../../scripts/getValidationErrors';
 
 const router = Router();
 
@@ -56,12 +55,8 @@ router.get('/', async (req: JwtPayload, res: Response) => {
 
 router.post('/', todoAddValidation, async (req: JwtPayload, res: Response) => {
     try {
-        const validationErrors =
-            validationResult(req).formatWith(errorFormatter);
-        if (!validationErrors.isEmpty()) {
-            return res.status(400).send({
-                errors: validationErrors.array(),
-            });
+        if (await getValidationErrors(req, res)) {
+            return;
         }
 
         const token = req.token;
@@ -119,12 +114,8 @@ router.patch(
     todoTitleUpdateValidation,
     async (req: JwtPayload, res: Response) => {
         try {
-            const validationErrors =
-                validationResult(req).formatWith(errorFormatter);
-            if (!validationErrors.isEmpty()) {
-                return res.status(400).send({
-                    errors: validationErrors.array(),
-                });
+            if (await getValidationErrors(req, res)) {
+                return;
             }
 
             const updateRecord = new UpdateTodoRecord(req, 'title');
@@ -142,12 +133,8 @@ router.patch(
 
 router.patch('/updateDesc/:id', async (req: JwtPayload, res: Response) => {
     try {
-        const validationErrors =
-            validationResult(req).formatWith(errorFormatter);
-        if (!validationErrors.isEmpty()) {
-            return res.status(400).send({
-                errors: validationErrors.array(),
-            });
+        if (await getValidationErrors(req, res)) {
+            return;
         }
 
         const updateRecord = new UpdateTodoRecord(req, 'desc');
@@ -167,12 +154,8 @@ router.patch(
     todoExpInUpdateValidation,
     async (req: JwtPayload, res: Response) => {
         try {
-            const validationErrors =
-                validationResult(req).formatWith(errorFormatter);
-            if (!validationErrors.isEmpty()) {
-                return res.status(400).send({
-                    errors: validationErrors.array(),
-                });
+            if (await getValidationErrors(req, res)) {
+                return;
             }
 
             const updateRecord = new UpdateTodoRecord(req, 'expiresIn');

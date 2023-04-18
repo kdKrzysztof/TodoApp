@@ -2,7 +2,6 @@ import userModel from '../../sequelize/models/user.model';
 import refreshTokenModel from '../../sequelize/models/refreshToken.model';
 import * as argon2 from 'argon2';
 import {
-    errorFormatter,
     registerValidation,
     loginValidation,
     logoutValidation,
@@ -18,8 +17,8 @@ import type {
 import type { Response, Request } from 'express';
 
 import { Router } from 'express';
-import { validationResult } from 'express-validator';
 import 'express-async-errors';
+import getValidationErrors from '../../scripts/getValidationErrors';
 
 const router = Router();
 
@@ -28,13 +27,8 @@ router.post(
     registerValidation,
     async (req: Request, res: Response) => {
         try {
-            const validationErrors =
-                validationResult(req).formatWith(errorFormatter);
-
-            if (!validationErrors.isEmpty()) {
-                return res.status(400).send({
-                    errors: validationErrors.array(),
-                });
+            if (await getValidationErrors(req, res)) {
+                return;
             }
 
             const userData: Register_userData = req.body;
@@ -79,13 +73,8 @@ router.post(
 
 router.post('/login', loginValidation, async (req: Request, res: Response) => {
     try {
-        const validationErrors =
-            validationResult(req).formatWith(errorFormatter);
-
-        if (!validationErrors.isEmpty()) {
-            return res.status(400).send({
-                errors: validationErrors.array(),
-            });
+        if (await getValidationErrors(req, res)) {
+            return;
         }
 
         const userData: Login_userData = req.body;
@@ -124,13 +113,8 @@ router.post(
     logoutValidation,
     async (req: Request, res: Response) => {
         try {
-            const validationErrors =
-                validationResult(req).formatWith(errorFormatter);
-
-            if (!validationErrors.isEmpty()) {
-                return res.status(400).send({
-                    errors: validationErrors.array(),
-                });
+            if (await getValidationErrors(req, res)) {
+                return;
             }
 
             const refreshToken: RefreshToken_Body = req.body.refreshToken;
