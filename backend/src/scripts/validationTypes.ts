@@ -76,7 +76,7 @@ export const logoutValidation = [
 ];
 
 export const todoAddValidation = [
-    check('Title')
+    check('title')
         .exists()
         .withMessage('Todo title is required')
         .not()
@@ -89,7 +89,7 @@ export const todoAddValidation = [
 ];
 
 export const todoTitleUpdateValidation = [
-    check('Title')
+    check('title')
         .exists()
         .withMessage('Todo title is required')
         .not()
@@ -106,7 +106,7 @@ export const todoExpInUpdateValidation = [
             if (!Date.parse(value)) {
                 throw new Error('Invalid date format');
             }
-            return true
+            return true;
         })
         .withMessage('Date field must be a valid date'),
 ];

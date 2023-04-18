@@ -12,6 +12,7 @@ import {
 import type { Response } from 'express';
 import type { AddTodo, TodoListData } from './todo.types';
 import type { JwtPayload } from 'jsonwebtoken';
+import { UpdateTodoRecord } from './todoUpdateRecord.class';
 
 const router = Router();
 
@@ -118,32 +119,19 @@ router.patch(
     todoTitleUpdateValidation,
     async (req: JwtPayload, res: Response) => {
         try {
-            const token = req.token;
-            if (!token.id) {
-                throw new statusError('Invalid token parameters', 400);
-            }
-
-            const todoId = req.params.id;
-            const data: string = req.body?.title;
-
-            if (!data) {
-                throw new statusError('Invalid body parameters', 400);
-            }
-
-            const foundTodoItem = await todoModel.findOne({
-                where: {
-                    userId: token.id,
-                    todoId: todoId,
-                },
-            });
-
-            if (foundTodoItem) {
-                await foundTodoItem.update({
-                    title: data,
+            const validationErrors =
+                validationResult(req).formatWith(errorFormatter);
+            if (!validationErrors.isEmpty()) {
+                return res.status(400).send({
+                    errors: validationErrors.array(),
                 });
-                res.sendStatus(204);
-            } else {
-                throw new statusError('Todo item not found', 404);
+            }
+
+            const updateRecord = new UpdateTodoRecord(req, 'title');
+            await updateRecord.updateRecord();
+
+            if (updateRecord) {
+                return res.sendStatus(204);
             }
         } catch (err) {
             console.error((err as Error).stack);
@@ -154,32 +142,19 @@ router.patch(
 
 router.patch('/updateDesc/:id', async (req: JwtPayload, res: Response) => {
     try {
-        const token = req.token;
-        if (!token.id) {
-            throw new statusError('Invalid token parameters', 400);
-        }
-
-        const todoId = req.params.id;
-        const data: string = req.body?.desc;
-
-        if (!data) {
-            throw new statusError('Invalid body parameters', 400);
-        }
-
-        const foundTodoItem = await todoModel.findOne({
-            where: {
-                userId: token.id,
-                todoId: todoId,
-            },
-        });
-
-        if (foundTodoItem) {
-            await foundTodoItem.update({
-                desc: data,
+        const validationErrors =
+            validationResult(req).formatWith(errorFormatter);
+        if (!validationErrors.isEmpty()) {
+            return res.status(400).send({
+                errors: validationErrors.array(),
             });
-            res.sendStatus(204);
-        } else {
-            throw new statusError('Todo item not found', 404);
+        }
+
+        const updateRecord = new UpdateTodoRecord(req, 'desc');
+        await updateRecord.updateRecord();
+
+        if (updateRecord) {
+            return res.sendStatus(204);
         }
     } catch (err) {
         console.error((err as Error).stack);
@@ -200,32 +175,11 @@ router.patch(
                 });
             }
 
-            const token = req.token;
-            if (!token.id) {
-                throw new statusError('Invalid token parameters', 400);
-            }
+            const updateRecord = new UpdateTodoRecord(req, 'expiresIn');
+            await updateRecord.updateRecord();
 
-            const todoId = req.params.id;
-            const data: Date = req.body?.expiresIn;
-
-            if (!data) {
-                throw new statusError('Invalid body parameters', 400);
-            }
-
-            const foundTodoItem = await todoModel.findOne({
-                where: {
-                    userId: token.id,
-                    todoId: todoId,
-                },
-            });
-
-            if (foundTodoItem) {
-                foundTodoItem.update({
-                    expiresIn: data,
-                });
-                res.sendStatus(204);
-            } else {
-                throw new statusError('Todo item not found', 404);
+            if (updateRecord) {
+                return res.sendStatus(204);
             }
         } catch (err) {
             console.error((err as Error).stack);
