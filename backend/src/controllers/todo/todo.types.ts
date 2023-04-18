@@ -1,10 +1,10 @@
-export interface addTodo {
+export interface AddTodo {
     Title: string;
     Desc: string;
     expiresIn: Date | undefined;
 }
 
-export interface todoListData {
+export interface TodoListData {
     userId: number;
     title: string;
     desc: string | null;

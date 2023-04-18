@@ -2,9 +2,9 @@ import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
 import Todo from './todo.model';
 import refreshToken from './refreshToken.model';
-import type { UserInterface } from './models.types';
+import type { UserModel } from './models.types';
 
-const User = db.define<UserInterface>('users', {
+const User = db.define<UserModel>('users', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

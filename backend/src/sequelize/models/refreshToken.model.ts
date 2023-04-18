@@ -1,8 +1,8 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
-import type { refreshTokenInterface } from './models.types';
+import type { RefreshTokenModel } from './models.types';
 
-const refreshToken = db.define<refreshTokenInterface>('refreshToken', {
+const refreshToken = db.define<RefreshTokenModel>('refreshToken', {
     refreshToken: {
         type: DataTypes.STRING(),
     },

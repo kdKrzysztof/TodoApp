@@ -1,14 +1,14 @@
-export interface register_userData {
+export interface Register_userData {
     username: string;
     email: string;
     password: string;
 }
 
-export interface login_userData {
+export interface Login_userData {
     email: string;
     password: string;
 }
 
-export interface refreshToken_Body {
+export interface RefreshToken_Body {
     refreshToken: string;
 }

@@ -1,8 +1,8 @@
 import db from '../config/dbConnect';
 import { DataTypes } from 'sequelize';
-import type { TodoInterface } from './models.types';
+import type { TodoModel } from './models.types';
 
-const Todo = db.define<TodoInterface>('Todos', {
+const Todo = db.define<TodoModel>('Todos', {
     todoId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
