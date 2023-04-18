@@ -87,3 +87,26 @@ export const todoAddValidation = [
         .withMessage(`Todo title can't be empty`),
     check('Desc').exists().withMessage('Todo desc is required'),
 ];
+
+export const todoTitleUpdateValidation = [
+    check('Title')
+        .exists()
+        .withMessage('Todo title is required')
+        .not()
+        .isEmpty()
+        .withMessage('Todo title is required')
+        .trim()
+        .notEmpty()
+        .withMessage(`Todo title can't be empty`),
+];
+
+export const todoExpInUpdateValidation = [
+    check('dateField')
+        .custom((value) => {
+            if (!Date.parse(value)) {
+                throw new Error('Invalid date format');
+            }
+            return true
+        })
+        .withMessage('Date field must be a valid date'),
+];

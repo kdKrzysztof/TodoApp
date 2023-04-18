@@ -6,9 +6,11 @@ import { validationResult } from 'express-validator';
 import {
     todoAddValidation,
     errorFormatter,
+    todoTitleUpdateValidation,
+    todoExpInUpdateValidation,
 } from '../../scripts/validationTypes';
 import type { Response } from 'express';
-import type { addTodo, todoListData } from './todo.types';
+import type { AddTodo, TodoListData } from './todo.types';
 import type { JwtPayload } from 'jsonwebtoken';
 
 const router = Router();
@@ -29,7 +31,7 @@ router.get('/', async (req: JwtPayload, res: Response) => {
             },
         });
 
-        const parsedTodoListData: todoListData[] = [];
+        const parsedTodoListData: TodoListData[] = [];
 
         foundTodoList.forEach((element) => {
             const Todo = {
@@ -67,7 +69,7 @@ router.post('/', todoAddValidation, async (req: JwtPayload, res: Response) => {
             throw new statusError('Invalid token parameters', 400);
         }
 
-        const userData: addTodo = req.body;
+        const userData: AddTodo = req.body;
 
         await todoModel.create({
             userId: token?.id,
@@ -110,6 +112,127 @@ router.delete('/:id', async (req: JwtPayload, res: Response) => {
         throw err;
     }
 });
+
+router.patch(
+    '/updateTitle/:id',
+    todoTitleUpdateValidation,
+    async (req: JwtPayload, res: Response) => {
+        try {
+            const token = req.token;
+            if (!token.id) {
+                throw new statusError('Invalid token parameters', 400);
+            }
+
+            const todoId = req.params.id;
+            const data: string = req.body?.title;
+
+            if (!data) {
+                throw new statusError('Invalid body parameters', 400);
+            }
+
+            const foundTodoItem = await todoModel.findOne({
+                where: {
+                    userId: token.id,
+                    todoId: todoId,
+                },
+            });
+
+            if (foundTodoItem) {
+                await foundTodoItem.update({
+                    title: data,
+                });
+                res.sendStatus(204);
+            } else {
+                throw new statusError('Todo item not found', 404);
+            }
+        } catch (err) {
+            console.error((err as Error).stack);
+            throw err;
+        }
+    }
+);
+
+router.patch('/updateDesc/:id', async (req: JwtPayload, res: Response) => {
+    try {
+        const token = req.token;
+        if (!token.id) {
+            throw new statusError('Invalid token parameters', 400);
+        }
+
+        const todoId = req.params.id;
+        const data: string = req.body?.desc;
+
+        if (!data) {
+            throw new statusError('Invalid body parameters', 400);
+        }
+
+        const foundTodoItem = await todoModel.findOne({
+            where: {
+                userId: token.id,
+                todoId: todoId,
+            },
+        });
+
+        if (foundTodoItem) {
+            await foundTodoItem.update({
+                desc: data,
+            });
+            res.sendStatus(204);
+        } else {
+            throw new statusError('Todo item not found', 404);
+        }
+    } catch (err) {
+        console.error((err as Error).stack);
+        throw err;
+    }
+});
+
+router.patch(
+    '/updateExpIn/:id',
+    todoExpInUpdateValidation,
+    async (req: JwtPayload, res: Response) => {
+        try {
+            const validationErrors =
+                validationResult(req).formatWith(errorFormatter);
+            if (!validationErrors.isEmpty()) {
+                return res.status(400).send({
+                    errors: validationErrors.array(),
+                });
+            }
+
+            const token = req.token;
+            if (!token.id) {
+                throw new statusError('Invalid token parameters', 400);
+            }
+
+            const todoId = req.params.id;
+            const data: Date = req.body?.expiresIn;
+
+            if (!data) {
+                throw new statusError('Invalid body parameters', 400);
+            }
+
+            const foundTodoItem = await todoModel.findOne({
+                where: {
+                    userId: token.id,
+                    todoId: todoId,
+                },
+            });
+
+            if (foundTodoItem) {
+                foundTodoItem.update({
+                    expiresIn: data,
+                });
+                res.sendStatus(204);
+            } else {
+                throw new statusError('Todo item not found', 404);
+            }
+        } catch (err) {
+            console.error((err as Error).stack);
+            throw err;
+        }
+    }
+);
 
 router.use(errorHandler);
 
