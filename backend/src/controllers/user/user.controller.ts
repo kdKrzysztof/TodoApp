@@ -11,9 +11,9 @@ import { statusError, errorHandler } from '../../middleware/errorHandler';
 import generateJWT from '../../scripts/generateJWT';
 
 import type {
-    register_userData,
-    login_userData,
-    refreshToken_Body,
+    Register_userData,
+    Login_userData,
+    RefreshToken_Body,
 } from './user.types';
 import type { Response, Request } from 'express';
 
@@ -37,7 +37,7 @@ router.post(
                 });
             }
 
-            const userData: register_userData = req.body;
+            const userData: Register_userData = req.body;
 
             const userExists = await userModel.findOne({
                 where: {
@@ -88,7 +88,7 @@ router.post('/login', loginValidation, async (req: Request, res: Response) => {
             });
         }
 
-        const userData: login_userData = req.body;
+        const userData: Login_userData = req.body;
 
         const user = await userModel.findOne({
             where: {
@@ -133,7 +133,7 @@ router.post(
                 });
             }
 
-            const refreshToken: refreshToken_Body = req.body.refreshToken;
+            const refreshToken: RefreshToken_Body = req.body.refreshToken;
 
             await refreshTokenModel.destroy({
                 where: {
@@ -150,16 +150,7 @@ router.post(
 
 router.post('/refreshToken', async (req: Request, res: Response) => {
     try {
-        const validationErrors =
-            validationResult(req).formatWith(errorFormatter);
-
-        if (!validationErrors.isEmpty()) {
-            return res.status(400).send({
-                errors: validationErrors.array(),
-            });
-        }
-
-        const refreshToken: refreshToken_Body = req.body.refreshToken;
+        const refreshToken: RefreshToken_Body = req.body.refreshToken;
 
         const refTokenData = await refreshTokenModel.findOne({
             where: {
