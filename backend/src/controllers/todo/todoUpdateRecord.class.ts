@@ -35,7 +35,7 @@ export class UpdateTodoRecord {
         this.data = data;
     }
 
-    async updateRecord(): Promise<boolean> {
+    public async updateRecord(): Promise<boolean> {
         const foundRecord = await this._findRecord();
 
         await foundRecord.update({
@@ -45,7 +45,7 @@ export class UpdateTodoRecord {
         return true;
     }
 
-    async _findRecord(): Promise<Model> {
+    private async _findRecord(): Promise<Model> {
         const foundTodoRecord = await todoModel.findOne({
             where: {
                 userId: this.userId,
