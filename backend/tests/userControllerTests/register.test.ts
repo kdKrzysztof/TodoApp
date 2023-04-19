@@ -1,7 +1,7 @@
 import supertest from 'supertest';
-import app from '../index';
-import dummyUser from './lib/dummyUser';
-import { createUser, destroyUser } from './scripts/queries';
+import app from '../../index';
+import dummyUser from '../lib/dummyUser';
+import { createUser, destroyUser } from '../scripts/queries';
 
 describe('POST /auth/register', () => {
     describe('Successful registration', () => {

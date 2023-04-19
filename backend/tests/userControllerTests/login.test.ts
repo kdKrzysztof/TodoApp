@@ -1,8 +1,8 @@
 import supertest from 'supertest';
-import app from '../index';
-import dummyUser from './lib/dummyUser';
+import app from '../../index';
+import dummyUser from '../lib/dummyUser';
 import { expect } from 'chai';
-import { createUser, destroyUser } from './scripts/queries';
+import { createUser, destroyUser } from '../scripts/queries';
 
 describe('POST /auth/login', () => {
     before(createUser);
