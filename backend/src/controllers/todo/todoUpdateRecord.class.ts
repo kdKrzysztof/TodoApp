@@ -3,11 +3,12 @@ import type { JwtPayload } from 'jsonwebtoken';
 import { Model } from 'sequelize';
 import { statusError } from '../../middleware/errorHandler';
 
+
 export class UpdateTodoRecord {
-    private readonly userId: string;
-    private readonly todoId: number;
-    private readonly recordToUpdate: string;
-    private readonly data;
+    private readonly _userId: string;
+    private readonly _todoId: number;
+    private readonly _recordToUpdate: string;
+    private readonly _data;
 
     constructor(req: JwtPayload, recordToUpdate: string) {
         const token = req.token;
@@ -29,27 +30,27 @@ export class UpdateTodoRecord {
             throw new Error('record to update not specified');
         }
 
-        this.userId = token.id;
-        this.todoId = todoId;
-        this.recordToUpdate = recordToUpdate;
-        this.data = data;
+        this._userId = token.id;
+        this._todoId = todoId;
+        this._recordToUpdate = recordToUpdate;
+        this._data = data;
     }
 
     public async updateRecord(): Promise<boolean> {
-        const foundRecord = await this._findRecord();
+        const foundRecord = await this.findRecord();
 
         await foundRecord.update({
-            [this.recordToUpdate]: this.data,
+            [this._recordToUpdate]: this._data,
         });
 
         return true;
     }
 
-    private async _findRecord(): Promise<Model> {
+    private async findRecord(): Promise<Model> {
         const foundTodoRecord = await todoModel.findOne({
             where: {
-                userId: this.userId,
-                todoId: this.todoId,
+                userId: this._userId,
+                todoId: this._todoId,
             },
         });
 
