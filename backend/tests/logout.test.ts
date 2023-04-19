@@ -1,11 +1,14 @@
 import supertest from 'supertest';
 import app from '../index';
 import dummyUser from './lib/dummyUser';
+import { createUser, destroyUser } from './scripts/queries';
 
 describe('POST /auth/logout', () => {
     let refreshToken: string;
 
-    beforeEach(async () => {
+    before(async () => {
+        await createUser();
+        
         await supertest(app)
             .post('/auth/login')
             .send({
@@ -16,6 +19,8 @@ describe('POST /auth/logout', () => {
                 refreshToken = res.body.newRefreshToken;
             });
     });
+
+    after(destroyUser);
 
     it('Should return 204', async () => {
         await supertest(app)

@@ -1,5 +1,5 @@
 export default {
-    username: 'exampleUsername',
-    email: 'example@example.ex',
+    username: 'exampleUsername12314',
+    email: 'exampl22e@example.ex',
     password: 'zaq1@WSX',
 };

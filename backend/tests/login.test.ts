@@ -2,8 +2,14 @@ import supertest from 'supertest';
 import app from '../index';
 import dummyUser from './lib/dummyUser';
 import { expect } from 'chai';
+import { createUser, destroyUser } from './scripts/queries';
 
 describe('POST /auth/login', () => {
+    before(createUser);
+    // after(destroyUser);
+
+    afterEach(destroyUser);
+
     it('Should return 200 with a token, refresh token and user details', async () => {
         await supertest(app)
             .post('/auth/login')
@@ -24,6 +30,7 @@ describe('POST /auth/login', () => {
                 });
             });
     });
+
     it('Should return 400', async () => {
         await supertest(app)
             .post('/auth/login')
@@ -33,6 +40,7 @@ describe('POST /auth/login', () => {
             })
             .expect(400);
     });
+
     it('Should return 401', async () => {
         await supertest(app)
             .post('/auth/login')
@@ -42,6 +50,7 @@ describe('POST /auth/login', () => {
             })
             .expect(401);
     });
+
     it('Should return 401', async () => {
         await supertest(app)
             .post('/auth/login')
