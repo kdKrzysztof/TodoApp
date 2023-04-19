@@ -10,9 +10,9 @@ import {
 import type { Response } from 'express';
 import type { AddTodo, TodoListData } from './todo.types';
 import type { JwtPayload } from 'jsonwebtoken';
-import { TodoRecordUpdater } from './todoUpdateRecord.class';
+import { TodoRecordUpdater } from './utils/todoUpdateRecord.class';
 import getValidationErrors from '../../scripts/getValidationErrors';
-import findRecordFunction from './todo.findRecord';
+import findRecordFunction from './utils/todo.findRecord';
 
 const router = Router();
 

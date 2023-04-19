@@ -1,5 +1,5 @@
 import type { JwtPayload } from 'jsonwebtoken';
-import { statusError } from '../../middleware/errorHandler';
+import { statusError } from '../../../middleware/errorHandler';
 import findRecordFunction from './todo.findRecord';
 
 export class TodoRecordUpdater {
