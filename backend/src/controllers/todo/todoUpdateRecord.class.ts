@@ -1,43 +1,51 @@
-import todoModel from '../../sequelize/models/todo.model';
 import type { JwtPayload } from 'jsonwebtoken';
-import { Model } from 'sequelize';
 import { statusError } from '../../middleware/errorHandler';
+import findRecordFunction from './todo.findRecord';
 
-
-export class UpdateTodoRecord {
-    private readonly _userId: string;
+export class TodoRecordUpdater {
+    private readonly _userId: number;
     private readonly _todoId: number;
     private readonly _recordToUpdate: string;
-    private readonly _data;
+    private readonly _data: string;
 
     constructor(req: JwtPayload, recordToUpdate: string) {
-        const token = req.token;
+        this.validateToken(req.token);
+        this.validateTodoId(req.params.id);
+        this.validateRecordToUpdate(recordToUpdate);
+        this.validateReqBodyData(req.body[recordToUpdate]);
+
+        this._userId = req.token.id;
+        this._todoId = req.params.id;
+        this._recordToUpdate = recordToUpdate;
+        this._data = req.body[recordToUpdate];
+    }
+
+    private validateToken(token: JwtPayload['token']): void {
         if (!token.id) {
             throw new statusError('Invalid token parameters', 400);
         }
+    }
 
-        const todoId = req.params.id;
+    private validateTodoId(todoId: JwtPayload['params']['id']): void {
         if (!todoId) {
             throw new statusError('Invalid todo id', 400);
         }
+    }
 
-        const data = req.body[recordToUpdate];
+    private validateRecordToUpdate(recordToUpdate: string): void {
+        if (!recordToUpdate) {
+            throw new statusError('record to update not specified', 400);
+        }
+    }
+
+    private validateReqBodyData(data: string): void {
         if (!data) {
             throw new statusError('Invalid body parameters', 400);
         }
-
-        if (!recordToUpdate) {
-            throw new Error('record to update not specified');
-        }
-
-        this._userId = token.id;
-        this._todoId = todoId;
-        this._recordToUpdate = recordToUpdate;
-        this._data = data;
     }
 
     public async updateRecord(): Promise<boolean> {
-        const foundRecord = await this.findRecord();
+        const foundRecord = await this.findRecord(this._userId, this._todoId);
 
         await foundRecord.update({
             [this._recordToUpdate]: this._data,
@@ -46,18 +54,5 @@ export class UpdateTodoRecord {
         return true;
     }
 
-    private async findRecord(): Promise<Model> {
-        const foundTodoRecord = await todoModel.findOne({
-            where: {
-                userId: this._userId,
-                todoId: this._todoId,
-            },
-        });
-
-        if (!foundTodoRecord) {
-            throw new statusError('Todo item not found', 400);
-        }
-
-        return foundTodoRecord;
-    }
+    private findRecord = findRecordFunction;
 }
