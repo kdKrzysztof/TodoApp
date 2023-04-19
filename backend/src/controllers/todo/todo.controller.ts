@@ -10,8 +10,9 @@ import {
 import type { Response } from 'express';
 import type { AddTodo, TodoListData } from './todo.types';
 import type { JwtPayload } from 'jsonwebtoken';
-import { UpdateTodoRecord } from './todoUpdateRecord.class';
+import { TodoRecordUpdater } from './todoUpdateRecord.class';
 import getValidationErrors from '../../scripts/getValidationErrors';
+import findRecordFunction from './todo.findRecord';
 
 const router = Router();
 
@@ -90,12 +91,7 @@ router.delete('/:id', async (req: JwtPayload, res: Response) => {
 
         const todoId = req.params.id;
 
-        const foundTodoItem = await todoModel.findOne({
-            where: {
-                userId: token.id,
-                todoId: todoId,
-            },
-        });
+        const foundTodoItem = await findRecordFunction(token.id, todoId);
 
         if (foundTodoItem) {
             foundTodoItem.destroy();
@@ -118,7 +114,7 @@ router.patch(
                 return;
             }
 
-            const updateRecord = new UpdateTodoRecord(req, 'title');
+            const updateRecord = new TodoRecordUpdater(req, 'title');
             await updateRecord.updateRecord();
 
             if (updateRecord) {
@@ -137,7 +133,7 @@ router.patch('/updateDesc/:id', async (req: JwtPayload, res: Response) => {
             return;
         }
 
-        const updateRecord = new UpdateTodoRecord(req, 'desc');
+        const updateRecord = new TodoRecordUpdater(req, 'desc');
         await updateRecord.updateRecord();
 
         if (updateRecord) {
@@ -158,7 +154,7 @@ router.patch(
                 return;
             }
 
-            const updateRecord = new UpdateTodoRecord(req, 'expiresIn');
+            const updateRecord = new TodoRecordUpdater(req, 'expiresIn');
             await updateRecord.updateRecord();
 
             if (updateRecord) {
