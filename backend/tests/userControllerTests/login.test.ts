@@ -6,8 +6,6 @@ import { createUser, destroyUser } from '../scripts/queries';
 
 describe('POST /auth/login', () => {
     before(createUser);
-    // after(destroyUser);
-
     afterEach(destroyUser);
 
     it('Should return 200 with a token, refresh token and user details', async () => {

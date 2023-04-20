@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import app from '../../index';
 import dummyUser from '../lib/dummyUser';
 import { createUser, destroyUser } from '../scripts/queries';
+import { expect } from 'chai';
 
 describe('POST /auth/register', () => {
     describe('Successful registration', () => {
@@ -31,7 +32,7 @@ describe('POST /auth/register', () => {
                     email: dummyUser.email,
                     password: dummyUser.password,
                 })
-                .expect(409);
+                .expect(409)
         });
     });
 
@@ -55,7 +56,16 @@ describe('POST /auth/register', () => {
                     email: '',
                     password: '',
                 })
-                .expect(400);
+                .expect(400)
+                .expect('Content-Type', 'application/json; charset=utf-8')
+                .expect(async (res) => {
+                    expect(res.body.array()[0]).to.have.all.keys(
+                        'location',
+                        'msg',
+                        'param',
+                        'value'
+                    );
+                });
         });
     });
 });
