@@ -14,6 +14,9 @@ const Todo = db.define<TodoModel>('Todos', {
     desc: {
         type: DataTypes.STRING,
     },
+    important: {
+        type: DataTypes.BOOLEAN,
+    },
     expiresIn: {
         type: DataTypes.DATEONLY,
         allowNull: true,

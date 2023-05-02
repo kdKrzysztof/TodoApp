@@ -85,7 +85,13 @@ export const todoAddValidation = [
         .trim()
         .notEmpty()
         .withMessage(`Todo title can't be empty`),
-    check('Desc').exists().withMessage('Todo desc is required'),
+    check('desc').exists().withMessage('Todo desc is required'),
+    check('important')
+        .exists()
+        .withMessage('Important boolean is required')
+        .not()
+        .isEmpty()
+        .withMessage('Important boolean is required'),
 ];
 
 export const todoTitleUpdateValidation = [
@@ -109,4 +115,8 @@ export const todoExpInUpdateValidation = [
             return true;
         })
         .withMessage('Date field must be a valid date'),
+];
+
+export const todoImportantUpdateValidation = [
+    check('important').isBoolean().withMessage('Important must be a boolean'),
 ];

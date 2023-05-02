@@ -6,6 +6,7 @@ import {
     todoAddValidation,
     todoTitleUpdateValidation,
     todoExpInUpdateValidation,
+    todoImportantUpdateValidation,
 } from '../../scripts/validationTypes';
 import type { Response } from 'express';
 import type { AddTodo, TodoListData } from './todo.types';
@@ -40,6 +41,7 @@ router.get('/', async (req: JwtPayload, res: Response) => {
                 todoId: element?.todoId,
                 title: element?.title,
                 desc: element?.desc,
+                important: element?.important,
                 createdAt: element?.createdAt,
                 expiresIn: element?.expiresIn,
             };
@@ -70,8 +72,9 @@ router.post('/', todoAddValidation, async (req: JwtPayload, res: Response) => {
 
         await todoModel.create({
             userId: token?.id,
-            title: userData.Title,
-            desc: userData.Desc,
+            title: userData.title,
+            desc: userData.desc,
+            important: userData?.important,
             expiresIn: userData.expiresIn,
         });
 
@@ -155,6 +158,28 @@ router.patch(
             }
 
             const updateRecord = new TodoRecordUpdater(req, 'expiresIn');
+            await updateRecord.updateRecord();
+
+            if (updateRecord) {
+                return res.sendStatus(204);
+            }
+        } catch (err) {
+            console.error((err as Error).stack);
+            throw err;
+        }
+    }
+);
+
+router.patch(
+    '/updateImportant/:id',
+    todoImportantUpdateValidation,
+    async (req: JwtPayload, res: Response) => {
+        try {
+            if (await getValidationErrors(req, res)) {
+                return;
+            }
+
+            const updateRecord = new TodoRecordUpdater(req, 'important');
             await updateRecord.updateRecord();
 
             if (updateRecord) {

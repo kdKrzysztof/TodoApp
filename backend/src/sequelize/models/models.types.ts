@@ -11,6 +11,7 @@ export interface TodoModel extends Model {
     userId: number;
     title: string;
     desc: string;
+    important: boolean;
     expiresIn: Date;
     createdAt: Date;
 }
