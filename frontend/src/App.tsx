@@ -1,4 +1,4 @@
-import { CssBaseline, createTheme } from '@mui/material';
+import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Header from './components/Header';
 import Index from './routes/Index';
@@ -35,7 +35,7 @@ const App = () => {
     []
   );
 
-  const theme = useMemo(
+  let theme = useMemo(
     () =>
       createTheme({
         palette: {
@@ -44,6 +44,8 @@ const App = () => {
       }),
     [mode]
   );
+
+  theme = responsiveFontSizes(theme);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
