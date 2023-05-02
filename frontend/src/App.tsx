@@ -6,6 +6,17 @@ import Register from './routes/Register';
 import Login from './routes/Login';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo } from 'react';
+import { Sidebar } from './components/Sidebar';
+
+interface SidebarContextValue {
+  menustate: boolean;
+  setMenustate: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SidebarContext = createContext<SidebarContextValue>({
+  menustate: false,
+  setMenustate: () => {}
+});
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -25,11 +36,13 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [menustate, setMenustate] = useState(false);
+  const [themeColor, setThemeColor] = useState<'light' | 'dark'>('light');
+
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setThemeColor((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       }
     }),
     []
@@ -39,23 +52,26 @@ const App = () => {
     () =>
       createTheme({
         palette: {
-          mode
+          mode: themeColor
         }
       }),
-    [mode]
+    [themeColor]
   );
 
   theme = responsiveFontSizes(theme);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <SidebarContext.Provider value={{ menustate, setMenustate }}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          <Sidebar />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </SidebarContext.Provider>
     </ColorModeContext.Provider>
   );
 };
 
-export { App, ColorModeContext };
+export { App, ColorModeContext, SidebarContext };
