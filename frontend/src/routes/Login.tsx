@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, useTheme } from '@mui/material';
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 
 const Login = () => {
