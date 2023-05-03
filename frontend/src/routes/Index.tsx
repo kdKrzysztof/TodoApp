@@ -1,9 +1,11 @@
-import React from 'react'
+import { Sidebar } from '../components/Sidebar';
 
 const Index = () => {
   return (
-    <div>Index</div>
-  )
-}
+    <>
+      <Sidebar />
+    </>
+  );
+};
 
-export default Index
+export default Index;
