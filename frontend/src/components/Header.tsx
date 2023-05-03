@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, useTheme } from '@mui/material';
+import { AppBar, Grid, Toolbar, Tooltip, Typography, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useContext } from 'react';
 import { ColorModeContext } from '../App';
 import { SidebarContext } from '../App';
+import { AccountCircle } from '@mui/icons-material';
 
 const Header = () => {
   const theme = useTheme();
@@ -14,21 +15,33 @@ const Header = () => {
 
   return (
     <AppBar position="fixed" color="primary" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar
-        sx={{
-          justifyContent: 'space-between'
-        }}>
-        <IconButton
-          color="inherit"
-          onClick={() => {
-            setMenustate(!menustate);
-          }}>
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h4">To-Do List App</Typography>
-        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
+      <Toolbar>
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setMenustate(!menustate);
+              }}>
+              <MenuIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Typography variant="h4">To-Do List App</Typography>
+          </Grid>
+          <Grid item>
+            <Tooltip title="Change theme">
+              <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Open settings">
+              <IconButton size="large" color="inherit">
+                <AccountCircle />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );
