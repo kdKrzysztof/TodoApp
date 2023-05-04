@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ColorModeContext } from '../App';
 import { SidebarContext } from '../App';
 import { AccountCircle } from '@mui/icons-material';
@@ -12,8 +12,12 @@ const Header = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const { menustate, setMenustate } = useContext(SidebarContext);
-  const [auth, setAuth] = useState<boolean>();
-  let localStorageAuth = localStorage.getItem('auth');
+  const [sidebarDisabled, setSidebarDisabled] = useState(true);
+  let localStorageAuth = sessionStorage.getItem('auth');
+
+  useEffect(() => {
+    setSidebarDisabled(localStorageAuth ? false : true);
+  }, [localStorageAuth]);
 
   return (
     <AppBar position="fixed" color="primary" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -23,7 +27,7 @@ const Header = () => {
             {
               <IconButton
                 color="inherit"
-                disabled={localStorageAuth ? false : true}
+                disabled={sidebarDisabled}
                 onClick={() => {
                   setMenustate(!menustate);
                 }}>
@@ -40,15 +44,11 @@ const Header = () => {
                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            {auth ? (
-              <Tooltip title="Open settings">
-                <IconButton size="large" color="inherit">
-                  <AccountCircle />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <></>
-            )}
+            <Tooltip title="Open settings">
+              <IconButton size="large" color="inherit">
+                <AccountCircle />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
       </Toolbar>

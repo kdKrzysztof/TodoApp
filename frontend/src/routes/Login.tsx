@@ -1,9 +1,36 @@
 import { Button, Grid, TextField, useTheme } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import { useEffect, useRef } from 'react';
+import { useUserLogin } from '../hooks/useUserLogin';
 
 const Login = () => {
   const theme = useTheme();
+  const emailInput = useRef<HTMLInputElement>(null);
+  const passwordInput = useRef<HTMLInputElement>(null);
+  const { data, isLoading, mutate: login, isSuccess, isError, error } = useUserLogin();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log('success');
+      localStorage.setItem('token', data.data['token']);
+      localStorage.setItem('refreshToken', data.data['newRefreshToken']);
+    } else if (isError) {
+      console.log(error);
+    } else return;
+  }, [isSuccess, isError]);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    let email = emailInput.current?.value;
+    let password = passwordInput.current?.value;
+
+    login({ email, password });
+  };
+
+  if (isLoading) {
+    return <div>Loading..</div>;
+  }
 
   return (
     <Box
@@ -39,10 +66,16 @@ const Login = () => {
             </Typography>
             <Grid container justifyContent="center" spacing={3}>
               <Grid item xs={10}>
-                <TextField fullWidth required label="Username" variant="standard"></TextField>
+                <TextField
+                  inputRef={emailInput}
+                  fullWidth
+                  required
+                  label="Username"
+                  variant="standard"></TextField>
               </Grid>
               <Grid item xs={10}>
                 <TextField
+                  inputRef={passwordInput}
                   fullWidth
                   required
                   type="password"
@@ -50,7 +83,7 @@ const Login = () => {
                   variant="standard"></TextField>
               </Grid>
               <Grid item xs={10} sx={{ mt: '1rem' }}>
-                <Button fullWidth variant="contained">
+                <Button fullWidth variant="contained" type="submit" onClick={handleSubmit}>
                   Login
                 </Button>
               </Grid>

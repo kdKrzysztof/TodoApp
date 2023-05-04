@@ -6,6 +6,7 @@ import Register from './routes/Register';
 import Login from './routes/Login';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo } from 'react';
+import { Sidebar } from './components/Sidebar';
 
 interface SidebarContextValue {
   menustate: boolean;
@@ -65,6 +66,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Header />
+          <Sidebar />
           <RouterProvider router={router} />
         </ThemeProvider>
       </SidebarContext.Provider>
