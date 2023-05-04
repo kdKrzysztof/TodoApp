@@ -7,8 +7,8 @@ const port = process.env.PORT || 5000;
 const app = Express();
 app.use(json());
 
-app.use('/auth', userController);
-app.use('/todo', todoController);
+app.use('/api/auth', userController);
+app.use('/api/todo', todoController);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
