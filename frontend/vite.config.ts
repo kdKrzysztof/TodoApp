@@ -13,5 +13,11 @@ export default defineConfig({
         ws: true
       }
     }
+  },
+  define: {
+    global: {
+      // in case of getting global variable errors
+      window: {}
+    }
   }
 });
