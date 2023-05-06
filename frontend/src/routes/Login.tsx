@@ -1,20 +1,19 @@
 import { Button, Divider, Grid, TextField, styled, useTheme } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useUserLogin } from '../hooks/useUserLogin';
 import apiStorage from '../utils/apiStorage';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  sessionStorage.clear();
-
-  const theme = useTheme();
   const navigate = useNavigate();
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
   const { data, isLoading, mutate: login, isSuccess, isError, error } = useUserLogin();
+
+  if (apiStorage.token) {
+    return <Navigate to="/" />;
+  }
 
   useEffect(() => {
     if (isSuccess) {
@@ -25,6 +24,7 @@ const Login = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     let email = emailInput.current?.value;
     let password = passwordInput.current?.value;
 
