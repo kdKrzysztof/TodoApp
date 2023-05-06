@@ -7,13 +7,7 @@ interface LoginData {
 }
 
 const postUserData = async (data: LoginData) => {
-  let dataJSON = {
-    email: data.email,
-    password: data.password
-  };
-  const res = await axios.post('api/auth/login', dataJSON);
-
-  return res;
+  return await axios.post('api/auth/login', data);
 };
 
 export const useUserLogin = () => {
