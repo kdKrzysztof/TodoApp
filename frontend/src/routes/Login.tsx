@@ -1,36 +1,39 @@
-import { Button, Grid, TextField, useTheme } from '@mui/material';
+import { Button, Divider, Grid, TextField, styled, useTheme } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef } from 'react';
 import { useUserLogin } from '../hooks/useUserLogin';
+import apiStorage from '../utils/apiStorage';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  sessionStorage.clear();
+
   const theme = useTheme();
+  const navigate = useNavigate();
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
   const { data, isLoading, mutate: login, isSuccess, isError, error } = useUserLogin();
 
   useEffect(() => {
     if (isSuccess) {
-      console.log('success');
-      localStorage.setItem('token', data.data['token']);
-      localStorage.setItem('refreshToken', data.data['newRefreshToken']);
-    } else if (isError) {
-      console.log(error);
-    } else return;
-  }, [isSuccess, isError]);
+      apiStorage.setLoginData(data);
+      navigate('/');
+    }
+  }, [isSuccess]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     let email = emailInput.current?.value;
     let password = passwordInput.current?.value;
 
-    login({ email, password });
+    login({ email: email, password: password });
   };
 
-  if (isLoading) {
-    return <div>Loading..</div>;
-  }
+  styled('div')(({ theme }) => ({
+    width: '100%',
+    ...theme.typography.body2
+  }));
 
   return (
     <Box
@@ -48,7 +51,9 @@ const Login = () => {
           '& > :not(style)': {
             m: 1,
             width: 400,
-            height: 500
+            height: 'auto',
+            pt: '2rem',
+            pb: '2rem'
           }
         }}>
         <Paper elevation={6}>
@@ -58,19 +63,18 @@ const Login = () => {
               fontWeight="bold"
               textAlign="center"
               p=".5rem"
-              mt="2rem"
               mb="2rem"
               color="white"
               bgcolor={[theme.palette.mode === 'light' ? blue[600] : 'inherit']}>
               Login
             </Typography>
-            <Grid container justifyContent="center" spacing={3}>
+            <Grid container display="flex" justifyContent="center" spacing={3}>
               <Grid item xs={10}>
                 <TextField
                   inputRef={emailInput}
                   fullWidth
                   required
-                  label="Username"
+                  label="Email"
                   variant="standard"></TextField>
               </Grid>
               <Grid item xs={10}>
@@ -86,6 +90,11 @@ const Login = () => {
                 <Button fullWidth variant="contained" type="submit" onClick={handleSubmit}>
                   Login
                 </Button>
+              </Grid>
+              <Grid item xs={10}>
+                <Divider textAlign="center">
+                  Need an account? <Link to="/register">Click here!</Link>
+                </Divider>
               </Grid>
             </Grid>
           </form>
