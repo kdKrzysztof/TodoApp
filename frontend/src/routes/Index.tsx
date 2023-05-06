@@ -1,18 +1,30 @@
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import { useEffect } from 'react';
+import { getTodoList } from '../hooks/getTodoList';
+import { receivedTodos } from '../../types';
+import apiStorage from '../utils/apiStorage';
 
 const Index = () => {
-  // const { data, isLoading, isError } = useQuery(['todoData'], {
-  //   queryFn: axios.get('')
-  // });
+  const navigate = useNavigate();
+  const { data, isLoading, isError, isSuccess } = getTodoList();
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (isError) {
-  //   return <div>{`error :<`}</div>;
-  // }
-  return <></>;
+  useEffect(() => {
+    if (isError) {
+      sessionStorage.clear();
+      navigate('/login');
+    }
+  }, [isError]);
+
+  return (
+    <div>
+      {isSuccess &&
+        data.data.map((e: receivedTodos) => {
+          return <div key={e.todoId}>{e.desc}</div>;
+        })}
+    </div>
+  );
 };
 
 export default Index;
