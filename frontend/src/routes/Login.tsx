@@ -6,6 +6,7 @@ import { useUserLogin } from '../hooks/useUserLogin';
 import apiStorage from '../utils/apiStorage';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
   sessionStorage.clear();
 
@@ -49,11 +50,10 @@ const Login = () => {
           display: 'flex',
           flexWrap: 'wrap',
           '& > :not(style)': {
-            m: 1,
             width: 400,
             height: 'auto',
-            pt: '2rem',
-            pb: '2rem'
+            pb: '2rem',
+            pt: '2rem'
           }
         }}>
         <Paper elevation={6}>
@@ -63,19 +63,13 @@ const Login = () => {
               fontWeight="bold"
               textAlign="center"
               p=".5rem"
-              mb="2rem"
-              color="white"
-              bgcolor={[theme.palette.mode === 'light' ? blue[600] : 'inherit']}>
-              Login
+              mb="1.5rem"
+              color="inherit">
+              Sign in
             </Typography>
-            <Grid container display="flex" justifyContent="center" spacing={3}>
+            <Grid container display="flex" justifyContent="center" spacing={2}>
               <Grid item xs={10}>
-                <TextField
-                  inputRef={emailInput}
-                  fullWidth
-                  required
-                  label="Email"
-                  variant="standard"></TextField>
+                <TextField inputRef={emailInput} fullWidth required label="Email"></TextField>
               </Grid>
               <Grid item xs={10}>
                 <TextField
@@ -83,12 +77,11 @@ const Login = () => {
                   fullWidth
                   required
                   type="password"
-                  label="Password"
-                  variant="standard"></TextField>
+                  label="Password"></TextField>
               </Grid>
-              <Grid item xs={10} sx={{ mt: '1rem' }}>
+              <Grid item xs={10} sx={{ mt: '1rem', mb: '1rem' }}>
                 <Button fullWidth variant="contained" type="submit" onClick={handleSubmit}>
-                  Login
+                  Sign in
                 </Button>
               </Grid>
               <Grid item xs={10}>

@@ -1,12 +1,13 @@
 import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Header from './components/Header';
 import Index from './routes/Index';
 import Register from './routes/Register';
 import Login from './routes/Login';
 import { ThemeProvider } from '@emotion/react';
-import { createContext, useState, useMemo } from 'react';
+import { createContext, useState, useMemo, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
+import { blue, purple, red } from '@mui/material/colors';
 
 interface SidebarContextValue {
   menustate: boolean;
@@ -37,7 +38,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [menustate, setMenustate] = useState(false);
-  const [themeColor, setThemeColor] = useState<'light' | 'dark'>('light');
+  const [themeColor, setThemeColor] = useState<'light' | 'dark'>(
+    (localStorage.getItem('themeColor') as 'light' | 'dark') ?? 'light'
+  );
 
   const colorMode = useMemo(
     () => ({
@@ -48,11 +51,20 @@ const App = () => {
     []
   );
 
+  useEffect(() => {
+    localStorage.setItem('themeColor', themeColor);
+  }, [themeColor]);
+
   let theme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: themeColor
+          mode: themeColor,
+          ...(themeColor === 'light'
+            ? { primary: { main: blue[600] } }
+            : {
+                primary: { main: blue[400] }
+              })
         }
       }),
     [themeColor]
@@ -65,8 +77,10 @@ const App = () => {
       <SidebarContext.Provider value={{ menustate, setMenustate }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Header />
-          <Sidebar />
+          <BrowserRouter>
+            <Header />
+            <Sidebar />
+          </BrowserRouter>
           <RouterProvider router={router} />
         </ThemeProvider>
       </SidebarContext.Provider>

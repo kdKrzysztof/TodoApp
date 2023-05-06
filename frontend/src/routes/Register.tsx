@@ -21,7 +21,9 @@ const Login = () => {
           '& > :not(style)': {
             m: 1,
             width: 400,
-            height: 500
+            height: 'auto',
+            pt: '2rem',
+            pb: '2rem'
           }
         }}>
         <Paper elevation={6}>
@@ -31,7 +33,6 @@ const Login = () => {
               fontWeight="bold"
               textAlign="center"
               p=".5rem"
-              mt="2rem"
               mb="2rem"
               color="white"
               bgcolor={[theme.palette.mode === 'light' ? blue[600] : 'inherit']}>

@@ -11,6 +11,12 @@ const Index = () => {
   const { data, isLoading, isError, isSuccess } = getTodoList();
 
   useEffect(() => {
+    if (!apiStorage.token) {
+      navigate('/login');
+    }
+  }, []);
+
+  useEffect(() => {
     if (isError) {
       sessionStorage.clear();
       navigate('/login');
