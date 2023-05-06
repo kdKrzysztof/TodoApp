@@ -1,5 +1,5 @@
 import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
-import { BrowserRouter, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Index from './routes/Index';
 import Register from './routes/Register';
@@ -7,7 +7,7 @@ import Login from './routes/Login';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
-import { blue, purple, red } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 interface SidebarContextValue {
   menustate: boolean;
@@ -20,21 +20,6 @@ const SidebarContext = createContext<SidebarContextValue>({
 });
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
-
-const router = createBrowserRouter([
-  {
-    path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/register',
-    element: <Register />
-  },
-  {
-    path: '/',
-    element: <Index />
-  }
-]);
 
 const App = () => {
   const [menustate, setMenustate] = useState(false);
@@ -77,11 +62,13 @@ const App = () => {
       <SidebarContext.Provider value={{ menustate, setMenustate }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <BrowserRouter>
-            <Header />
-            <Sidebar />
-          </BrowserRouter>
-          <RouterProvider router={router} />
+          <Header />
+          <Sidebar />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
         </ThemeProvider>
       </SidebarContext.Provider>
     </ColorModeContext.Provider>

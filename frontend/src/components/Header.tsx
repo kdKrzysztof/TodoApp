@@ -14,15 +14,13 @@ const Header = () => {
   const colorMode = useContext(ColorModeContext);
   const { menustate, setMenustate } = useContext(SidebarContext);
   const [sidebarDisabled, setSidebarDisabled] = useState(true);
-  
+
   const location = useLocation();
   useEffect(() => {
-    console.log(location.pathname);
-    //prettier-ignore
     if (location.pathname === '/login') {
       setSidebarDisabled(true);
     } else {
-      setSidebarDisabled(false)
+      setSidebarDisabled(false);
     }
   }, [location]);
 
