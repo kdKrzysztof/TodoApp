@@ -1,4 +1,13 @@
-import { AppBar, Grid, Toolbar, Tooltip, Typography, useTheme } from '@mui/material';
+import {
+  AppBar,
+  Grid,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+  useTheme
+} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -7,13 +16,18 @@ import { useContext, useEffect, useState } from 'react';
 import { ColorModeContext } from '../App';
 import { SidebarContext } from '../App';
 import { AccountCircle } from '@mui/icons-material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useLogout } from '../hooks/useLogout';
 
 const Header = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
+  const navigate = useNavigate();
   const { menustate, setMenustate } = useContext(SidebarContext);
   const [sidebarDisabled, setSidebarDisabled] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [auth, setAuth] = useState<Boolean>(false);
+  const open = Boolean(anchorEl);
 
   const location = useLocation();
   useEffect(() => {
@@ -23,6 +37,28 @@ const Header = () => {
       setSidebarDisabled(false);
     }
   }, [location]);
+
+  useEffect(() => {
+    setAuth(sessionStorage?.token ? true : false);
+  }, [location]);
+
+  const handleAccountButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    anchorEl ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
+  };
+
+  const { data, mutate: logout, isError, isSuccess } = useLogout();
+
+  const logoutButtonClick = () => {
+    const refreshToken = sessionStorage.refreshToken;
+    logout({ refreshToken: refreshToken });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      sessionStorage.clear();
+      navigate('/login');
+    }
+  }, [isSuccess]);
 
   return (
     <AppBar position="fixed" color="primary" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -49,11 +85,18 @@ const Header = () => {
                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Open settings">
-              <IconButton size="large" color="inherit">
-                <AccountCircle />
-              </IconButton>
-            </Tooltip>
+            {auth ? (
+              <Tooltip title={anchorEl ? '' : 'Open settings'}>
+                <IconButton size="large" color="inherit" onClick={handleAccountButtonClick}>
+                  <AccountCircle />
+                  <Menu anchorEl={anchorEl} open={open}>
+                    <MenuItem onClick={logoutButtonClick}>Logout</MenuItem>
+                  </Menu>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       </Toolbar>
