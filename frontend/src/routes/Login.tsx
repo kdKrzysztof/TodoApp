@@ -1,7 +1,7 @@
-import { Button, Divider, Grid, TextField, styled, useTheme } from '@mui/material';
+import { Button, Divider, Grid, TextField, styled } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import { useUserLogin } from '../hooks/useUserLogin';
+import { useEffect, useRef } from 'react';
+import { useUserLogin } from '../hooks/postUserLogin';
 import apiStorage from '../utils/apiStorage';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const Login = () => {
   const navigate = useNavigate();
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
-  const { data, isLoading, mutate: login, isSuccess, isError, error } = useUserLogin();
+  const { data, mutate: login, isSuccess } = useUserLogin();
 
   if (apiStorage.token) {
     return <Navigate to="/" />;
