@@ -119,11 +119,18 @@ router.post(
 
             const refreshToken: RefreshToken_Body = req.body.refreshToken;
 
-            await refreshTokenModel.destroy({
+            const foundModel = await refreshTokenModel.findOne({
                 where: {
                     refreshToken: refreshToken,
                 },
             });
+
+            if (foundModel === null) {
+                return res.sendStatus(400);
+            }
+
+            await foundModel?.destroy();
+
             return res.sendStatus(204);
         } catch (err) {
             console.error((err as Error).stack);
