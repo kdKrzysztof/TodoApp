@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "node index.js",
+        "start": "ts-node index",
         "format": "prettier --write .",
         "test": "mocha --require ts-node/register ./tests/**/*.test.ts"
     },

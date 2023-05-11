@@ -3,7 +3,9 @@ import type { Dialect } from 'sequelize';
 
 import config from './db.config';
 
-const devOptions = config.development;
+const devOptions = process.env?.PRODUCTION
+    ? config.production
+    : config.development;
 
 const sequelize = new Sequelize(
     devOptions.database,
@@ -11,7 +13,7 @@ const sequelize = new Sequelize(
     devOptions.password,
     {
         host: devOptions.host,
-        port: 7000,
+        port: parseInt(process.env.DB_PORT || '5432'),
         dialect: devOptions.dialect as Dialect,
     }
 );
