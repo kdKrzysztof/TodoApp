@@ -58,12 +58,21 @@ router.post(
 
             const hashedPassword = await argon2.hash(userData.password);
 
-            await userModel.create({
+            const createdUser = await userModel.create({
                 username: userData.username,
                 email: userData.email,
                 password: hashedPassword,
             });
-            return res.status(200).send('Account has been created.');
+
+            const token = await generateJWT(createdUser.id, createdUser.email);
+            return res.status(200).json({
+                ...token,
+                userData: {
+                    id: createdUser.id,
+                    username: createdUser.username,
+                    email: createdUser.email,
+                },
+            });
         } catch (err) {
             console.error((err as Error).stack);
             throw err;
