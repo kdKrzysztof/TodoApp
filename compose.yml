@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: TodoDB
     ports:
       - 5432:5432
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
   backend:
     build:
       context: './backend'

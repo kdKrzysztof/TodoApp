@@ -46,7 +46,7 @@ const Header = () => {
     anchorEl ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
   };
 
-  const { data, mutate: logout, isError, isSuccess } = useLogout();
+  const { mutate: logout, isSuccess } = useLogout();
 
   const logoutButtonClick = () => {
     const refreshToken = sessionStorage.refreshToken;
