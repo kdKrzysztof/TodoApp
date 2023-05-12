@@ -5,14 +5,42 @@ import {
   PasswordElement,
   PasswordRepeatElement
 } from 'react-hook-form-mui';
+import { useRegister } from '../hooks/useRegister';
+import type { RegisterData } from '../../types';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import apiStorage from '../utils/apiStorage';
 
 const RegisterForm = () => {
+  const { data, mutate: register, isError, error, isSuccess } = useRegister();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) {
+      console.log(error);
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      apiStorage.setLoginData(data);
+      navigate('/');
+    }
+  }, [isSuccess]);
+
   return (
     <FormContainer
       defaultValues={{
         name: ''
       }}
-      onSuccess={() => console.log('succ')}>
+      onSuccess={(data: RegisterData) => {
+        console.log(data);
+        register({
+          username: data?.username,
+          email: data?.email,
+          password: data?.password
+        });
+      }}>
       <Typography
         variant="h4"
         fontWeight="bold"
@@ -57,7 +85,7 @@ const RegisterForm = () => {
                 /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z!#$%&? "])[a-zA-Z0-9!#$%&?]{8,40}$/
             }}
             parseError={() => {
-              return 'Password must be at least 8 characters long, contain 1 uppercase letter, 1 number and 1 symbol.';
+              return 'Password must contain 8 to 40 characters, contain 1 uppercase letter, 1 number and 1 symbol.';
             }}
           />
         </Grid>
