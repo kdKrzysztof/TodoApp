@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getTodoList } from '../hooks/getTodoList';
+import { getTodoList } from '../hooks/useGetTodoList';
 import { receivedTodos } from '../../types';
 import apiStorage from '../utils/apiStorage';
 
