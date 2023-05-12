@@ -28,7 +28,7 @@ export const registerValidation = [
         .not()
         .isNumeric()
         .withMessage(`You can't have only numbers in username`)
-        .matches(/^\w+$/)
+        .matches(/^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/gi)
         .withMessage(
             'Username must not contain any spaces or special characters'
         ),
@@ -42,16 +42,11 @@ export const registerValidation = [
     check('password')
         .exists()
         .withMessage('Password is required')
-        .isStrongPassword({
-            minLength: 8,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-            returnScore: false,
-        })
+        .matches(
+            /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z!#$%&? "])[a-zA-Z0-9!#$%&?]{8,40}$/
+        )
         .withMessage(
-            'Password is not strong enough. Your password must be at least 8 characters long. Must contain min. 1 upper case letter, 1 number and 1 special character'
+            'Password is not strong enough. Your password must be between 8 and 40 characters long. Must contain min. 1 upper case letter, 1 number and 1 special character'
         )
         .custom((value) => !/\s/.test(value))
         .withMessage('No spaces are allowed in the password'),
