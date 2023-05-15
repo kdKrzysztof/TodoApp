@@ -30,15 +30,9 @@ const Header = () => {
   const open = Boolean(anchorEl);
 
   const location = useLocation();
-  useEffect(() => {
-    if (location.pathname === '/login') {
-      setSidebarDisabled(true);
-    } else {
-      setSidebarDisabled(false);
-    }
-  }, [location]);
 
   useEffect(() => {
+    setSidebarDisabled(sessionStorage?.token ? false : true);
     setAuth(sessionStorage?.token ? true : false);
   }, [location]);
 
@@ -94,9 +88,7 @@ const Header = () => {
                   </Menu>
                 </IconButton>
               </Tooltip>
-            ) : (
-              <></>
-            )}
+            ) : null}
           </Grid>
         </Grid>
       </Toolbar>
