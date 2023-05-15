@@ -1,10 +1,7 @@
-import { Button, Grid, TextField, useTheme } from '@mui/material';
-import { Box, Paper, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { Box, Paper } from '@mui/material';
 import RegisterForm from '../components/RegisterForm';
 
 const Login = () => {
-  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -27,7 +24,7 @@ const Login = () => {
           }
         }}>
         <Paper elevation={6}>
-          <RegisterForm/>
+          <RegisterForm />
         </Paper>
       </Box>
     </Box>
