@@ -1,13 +1,13 @@
 import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import Index from './routes/Index';
-import Register from './routes/Register';
-import Login from './routes/Login';
 import { ThemeProvider } from '@emotion/react';
-import { createContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { blue } from '@mui/material/colors';
+const Index = lazy(() => import('./routes/Index'));
+const Register = lazy(() => import('./routes/Register'));
+const Login = lazy(() => import('./routes/Login'));
 
 interface SidebarContextValue {
   menustate: boolean;
@@ -20,6 +20,8 @@ const SidebarContext = createContext<SidebarContextValue>({
 });
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
+
+//----------------------------------------------------------//
 
 const App = () => {
   const [menustate, setMenustate] = useState(false);
@@ -65,9 +67,30 @@ const App = () => {
           <Header />
           <Sidebar />
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/"
+              element={
+                <Suspense fallback={<>...</>}>
+                  <Index />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Suspense fallback={<>...</>}>
+                  <Login />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <Suspense fallback={<>...</>}>
+                  <Register />
+                </Suspense>
+              }
+            />
           </Routes>
         </ThemeProvider>
       </SidebarContext.Provider>
