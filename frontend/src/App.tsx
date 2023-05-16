@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo, useEffect, lazy, Suspense } from 'react';
-import { Sidebar } from './components/Sidebar';
+import Sidebar from './components/Sidebar';
 import { blue } from '@mui/material/colors';
 const Index = lazy(() => import('./routes/Index'));
 const Register = lazy(() => import('./routes/Register'));
