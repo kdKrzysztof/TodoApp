@@ -1,6 +1,7 @@
 import { Button, Divider, Grid, TextField } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
+import type { MouseEventHandler } from 'react';
 import { useUserLogin } from '../hooks/useUserLogin';
 import apiStorage from '../utils/apiStorage';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -22,7 +23,7 @@ const Login = () => {
     }
   }, [isSuccess]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
     let email = emailInput.current?.value;
