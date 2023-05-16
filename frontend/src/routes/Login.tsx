@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, TextField, styled } from '@mui/material';
+import { Button, Divider, Grid, TextField } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useUserLogin } from '../hooks/useUserLogin';
@@ -30,11 +30,6 @@ const Login = () => {
 
     login({ email: email, password: password });
   };
-
-  styled('div')(({ theme }) => ({
-    width: '100%',
-    ...theme.typography.body2
-  }));
 
   return (
     <Box
