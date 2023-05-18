@@ -30,11 +30,7 @@ const RegisterForm = () => {
 
   return (
     <FormContainer
-      defaultValues={{
-        name: ''
-      }}
       onSuccess={(data: RegisterData) => {
-        console.log(data);
         register({
           username: data?.username,
           email: data?.email,

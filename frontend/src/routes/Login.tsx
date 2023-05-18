@@ -1,15 +1,14 @@
-import { Button, Divider, Grid, TextField } from '@mui/material';
+import { Button, Divider, Grid } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
-import { useEffect, useRef } from 'react';
-import type { MouseEventHandler } from 'react';
+import { useEffect} from 'react';
 import { useUserLogin } from '../hooks/useUserLogin';
 import apiStorage from '../utils/apiStorage';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
+import type { LoginData } from '../../types';
 
 const Login = () => {
   const navigate = useNavigate();
-  const emailInput = useRef<HTMLInputElement>(null);
-  const passwordInput = useRef<HTMLInputElement>(null);
   const { data, mutate: login, isSuccess } = useUserLogin();
 
   if (apiStorage.token) {
@@ -22,15 +21,6 @@ const Login = () => {
       navigate('/');
     }
   }, [isSuccess]);
-
-  const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-
-    let email = emailInput.current?.value;
-    let password = passwordInput.current?.value;
-
-    login({ email: email, password: password });
-  };
 
   return (
     <Box
@@ -53,7 +43,13 @@ const Login = () => {
           }
         }}>
         <Paper elevation={6}>
-          <form>
+          <FormContainer
+            onSuccess={(data: LoginData) => {
+              login({
+                email: data?.email,
+                password: data?.password
+              });
+            }}>
             <Typography
               variant="h4"
               fontWeight="bold"
@@ -65,18 +61,19 @@ const Login = () => {
             </Typography>
             <Grid container display="flex" justifyContent="center" spacing={2}>
               <Grid item xs={10}>
-                <TextField inputRef={emailInput} fullWidth required label="Email"></TextField>
+                <TextFieldElement name="email" type="email" label="Email" fullWidth required />
               </Grid>
               <Grid item xs={10}>
-                <TextField
-                  inputRef={passwordInput}
+                <PasswordElement
+                  name="password"
+                  type="password"
+                  label="Password"
                   fullWidth
                   required
-                  type="password"
-                  label="Password"></TextField>
+                />
               </Grid>
               <Grid item xs={10} sx={{ mt: '1rem', mb: '1rem' }}>
-                <Button fullWidth variant="contained" type="submit" onClick={handleSubmit}>
+                <Button variant="contained" type="submit" fullWidth>
                   Sign in
                 </Button>
               </Grid>
@@ -86,7 +83,7 @@ const Login = () => {
                 </Divider>
               </Grid>
             </Grid>
-          </form>
+          </FormContainer>
         </Paper>
       </Box>
     </Box>

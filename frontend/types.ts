@@ -15,3 +15,8 @@ export interface RegisterData {
   password: string | undefined;
   repassword: string | undefined;
 }
+
+export interface LoginData {
+  email: string | undefined;
+  password: string | undefined;
+}
