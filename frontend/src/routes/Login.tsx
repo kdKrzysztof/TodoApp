@@ -6,7 +6,7 @@ import apiStorage from '../utils/apiStorage';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import type { LoginData } from '../../types';
-import { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError } from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
