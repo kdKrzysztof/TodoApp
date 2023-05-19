@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material';
 import RegisterForm from '../components/RegisterForm';
 
-const Login = () => (
+const Register = () => (
   <Box
     sx={{
       display: 'flex',
@@ -29,4 +29,4 @@ const Login = () => (
   </Box>
 );
 
-export default Login;
+export default Register;
