@@ -17,6 +17,7 @@ const Index = () => {
           sessionStorage.clear();
           navigate('/login');
         }
+        refetch();
       })();
     }
   }, [isError]);
