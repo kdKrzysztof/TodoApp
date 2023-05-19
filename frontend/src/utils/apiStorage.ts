@@ -28,6 +28,11 @@ class SessionStorage {
     this.refreshToken = data.data['newRefreshToken'];
     this.userData = data.data['userData'];
   }
+
+  setRefreshToken(data: AxiosResponse) {
+    this.token = data.data['token'];
+    this.refreshToken = data.data['newRefreshToken'];
+  }
 }
 
 const apiStorage = new SessionStorage();
