@@ -7,6 +7,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import type { LoginData } from '../../types';
 import type { AxiosError } from 'axios';
+import { styled } from '@mui/system';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,6 +32,21 @@ const Login = () => {
     }
   }, [isError]);
 
+  const LoginContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    width: '100vw',
+    height: '100%',
+    '& > :not(style)': {
+      margin: theme.spacing(1),
+      height: 'auto',
+      paddingTop: '2rem',
+      paddingBottom: '2rem'
+    }
+  }));
+
   return (
     <>
       <Snackbar open={openAlert} autoHideDuration={3000} onClose={() => setOpenAlert(false)}>
@@ -43,22 +59,10 @@ const Login = () => {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
-          justifyContent: 'center',
-          width: '100vw',
-          height: '100%'
+          justifyContent: 'center'
         }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            '& > :not(style)': {
-              width: 400,
-              height: 'auto',
-              pb: '2rem',
-              pt: '2rem'
-            }
-          }}>
-          <Paper elevation={6}>
+        <LoginContainer>
+          <Paper elevation={6} sx={{ maxWidth: '30rem' }}>
             <FormContainer
               onSuccess={(data: LoginData) => {
                 login({
@@ -95,13 +99,13 @@ const Login = () => {
                 </Grid>
                 <Grid item xs={10}>
                   <Divider textAlign="center">
-                    Need an account? <Link to="/register">Click here!</Link>
+                    Need an account? <Link to="/register">Sign up</Link>
                   </Divider>
                 </Grid>
               </Grid>
             </FormContainer>
           </Paper>
-        </Box>
+        </LoginContainer>
       </Box>
     </>
   );
