@@ -3,10 +3,15 @@ import { useEffect } from 'react';
 import { getTodoList } from '../hooks/useGetTodoList';
 import { receivedTodos } from '../../types';
 import { getNewRefreshToken } from '../utils/getNewRefreshToken';
+import { useQuery } from 'react-query';
+import api from '../utils/api.class';
 
 const Index = () => {
   const navigate = useNavigate();
-  const { data, isError, isSuccess, refetch } = getTodoList();
+  const { data, isError, isSuccess, refetch } = useQuery(['todoData'], {
+    queryFn: api.getTodos,
+    retry: false
+  });
 
   useEffect(() => {
     if (isError) {

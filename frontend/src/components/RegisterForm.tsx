@@ -5,15 +5,23 @@ import {
   PasswordElement,
   PasswordRepeatElement
 } from 'react-hook-form-mui';
-import { useRegister } from '../hooks/useRegister';
-import type { RegisterData } from '../../types';
+import type { RegisterData } from '../utils/api.types'
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import apiStorage from '../utils/apiStorage';
 import { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+import api from '../utils/api.class';
 
 const RegisterForm = () => {
-  const { data, mutate: register, isError, error, isSuccess } = useRegister();
+  const {
+    data,
+    mutate: register,
+    isError,
+    error,
+    isSuccess
+  } = useMutation((data: RegisterData) => api.register(data));
+
   const [openAlert, setOpenAlert] = useState(false);
   const navigate = useNavigate();
 

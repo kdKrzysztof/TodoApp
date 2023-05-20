@@ -1,18 +1,19 @@
 import { Alert, AlertTitle, Button, Divider, Grid, Snackbar } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useUserLogin } from '../hooks/useUserLogin';
 import apiStorage from '../utils/apiStorage';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
-import type { LoginData } from '../../types';
 import type { AxiosError } from 'axios';
 import { styled } from '@mui/system';
+import { useMutation } from 'react-query';
+import type {LoginData} from '../utils/api.types'
+import api from '../utils/api.class';
 
 const Login = () => {
   const navigate = useNavigate();
   const [openAlert, setOpenAlert] = useState(false);
-  const { data, mutate: login, isSuccess, isError, error } = useUserLogin();
+  const { data, mutate: login, isSuccess, isError, error } = useMutation((data: LoginData) => api.login(data));
 
   if (apiStorage.token) {
     return <Navigate to="/" />;

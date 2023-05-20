@@ -17,10 +17,13 @@ import { ColorModeContext } from '../App';
 import { SidebarContext } from '../App';
 import { AccountCircle } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLogout } from '../hooks/useLogout';
+import { useMutation } from 'react-query';
+import api from '../utils/api.class';
+import { LogoutData } from '../utils/api.types';
 
 const Header = () => {
   const theme = useTheme();
+  const location = useLocation();
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const { menustate, setMenustate } = useContext(SidebarContext);
@@ -29,7 +32,6 @@ const Header = () => {
   const [auth, setAuth] = useState<Boolean>(false);
   const open = Boolean(anchorEl);
 
-  const location = useLocation();
 
   useEffect(() => {
     setSidebarDisabled(sessionStorage?.token ? false : true);
@@ -40,7 +42,7 @@ const Header = () => {
     anchorEl ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
   };
 
-  const { mutate: logout, isSuccess } = useLogout();
+  const { mutate: logout, isSuccess } = useMutation((data: LogoutData) => api.logout(data));
 
   const logoutButtonClick = () => {
     const refreshToken = sessionStorage.refreshToken;
