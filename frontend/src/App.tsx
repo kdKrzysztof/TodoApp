@@ -70,7 +70,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                <Suspense fallback={<>...</>}>
+                <Suspense fallback={<></>}>
                   <Index />
                 </Suspense>
               }
@@ -78,7 +78,7 @@ const App = () => {
             <Route
               path="/login"
               element={
-                <Suspense fallback={<>...</>}>
+                <Suspense fallback={<></>}>
                   <Login />
                 </Suspense>
               }
@@ -86,7 +86,7 @@ const App = () => {
             <Route
               path="/register"
               element={
-                <Suspense fallback={<>...</>}>
+                <Suspense fallback={<></>}>
                   <Register />
                 </Suspense>
               }
