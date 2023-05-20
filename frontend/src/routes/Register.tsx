@@ -1,32 +1,42 @@
 import { Box, Paper } from '@mui/material';
+import { styled } from '@mui/system';
 import RegisterForm from '../components/RegisterForm';
+import apiStorage from '../utils/apiStorage';
+import { Navigate } from 'react-router-dom';
 
-const Register = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      width: '100vw',
-      height: '100%'
-    }}>
+const Register = () => {
+  if (apiStorage.token) {
+    return <Navigate to="/" />;
+  }
+
+  const RegisterContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100vw',
+    height: '100%',
+    '& > :not(style)': {
+      margin: theme.spacing(1),
+      height: 'auto',
+      paddingTop: '2rem',
+      paddingBottom: '2rem'
+    }
+  }));
+
+  return (
     <Box
       sx={{
         display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          width: 400,
-          height: 'auto',
-          pt: '2rem',
-          pb: '2rem'
-        }
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
-      <Paper elevation={6}>
-        <RegisterForm />
-      </Paper>
+      <RegisterContainer>
+        <Paper elevation={6} sx={{ maxWidth: '30rem' }}>
+          <RegisterForm />
+        </Paper>
+      </RegisterContainer>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default Register;
