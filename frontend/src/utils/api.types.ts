@@ -22,7 +22,7 @@ export interface AddTodo {
   title: string;
   desc: string;
   important: boolean;
-  expiresIn: Date | undefined;
+  pickedDate: any;
 }
 
 export interface LogoutData {
