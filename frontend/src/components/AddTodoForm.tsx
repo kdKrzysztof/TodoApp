@@ -67,7 +67,7 @@ const AddTodoForm = () => {
               title: data?.title,
               desc: data?.desc,
               important: data?.important,
-              expiresIn: data?.pickedDate.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
+              expiresIn: data?.pickedDate?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
             });
           }}>
           <Grid container justifyContent="center" spacing={2} marginTop={0}>
