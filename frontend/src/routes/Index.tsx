@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { receivedTodos } from '../../types';
 import {
   Dialog,
-  DialogContent,
-  DialogTitle,
   IconButton,
   Paper,
   Table,
@@ -98,7 +96,7 @@ const todoTable = () => {
         </TableContainer>
       </TableMainBody>
       <Dialog open={openDialogState} onClose={closeDialog} fullScreen={dialogFullScreen}>
-        <AddTodoForm />
+        <AddTodoForm setOpenDialogState={setOpenDialogState} />
       </Dialog>
     </>
   );
