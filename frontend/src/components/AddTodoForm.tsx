@@ -18,11 +18,9 @@ import {
   DatePickerElement
 } from 'react-hook-form-mui';
 import { AddTodo } from '../utils/api.types';
-import { useNavigate } from 'react-router-dom';
 import api from '../utils/api.class';
-import apiStorage from '../utils/apiStorage';
 import React, { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -30,8 +28,18 @@ import { AxiosError } from 'axios';
 import { isDayjs } from 'dayjs';
 import type { AddTodoForm, AddTodoFormProps } from '../../types';
 
-const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState, refetchTodos }) => {
-  const { mutate: newTodo, isError, error } = useMutation((data: AddTodo) => api.addTodo(data));
+const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
+  const queryClient = useQueryClient();
+  const {
+    mutate: newTodo,
+    isError,
+    error
+  } = useMutation({
+    mutationFn: (data: AddTodo) => api.addTodo(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todoData'] });
+    }
+  });
 
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -48,7 +56,6 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState, refetchTo
       important: data?.important ?? false,
       expiresIn: data?.expiresIn?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
     });
-    await refetchTodos();  // I have no idea why body is not updating in time
     setOpenDialogState(false);
   };
 

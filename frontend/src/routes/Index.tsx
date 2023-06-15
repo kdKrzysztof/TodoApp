@@ -5,8 +5,8 @@ import { getNewRefreshToken } from '../utils/getNewRefreshToken';
 import { useNavigate } from 'react-router-dom';
 import { receivedTodos } from '../../types';
 import {
+  Button,
   Dialog,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -17,12 +17,12 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { styled } from '@mui/system';
-import AddTaskIcon from '@mui/icons-material/AddTask';
+import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import AddTodoForm from '../components/AddTodoForm';
 
 const todoTable = () => {
-  const { data, isError, isSuccess, refetch } = useQuery(['todoData'], {
+  const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
     retry: false
   });
@@ -75,17 +75,13 @@ const todoTable = () => {
                 <TableCell>Title</TableCell>
                 <TableCell>Desc</TableCell>
                 <TableCell size="small" align="center" width="1rem">
-                  <IconButton color="info" onClick={openDialog}>
-                    <AddTaskIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell>
-                  <button
-                    onClick={() => {
-                      refetch();
-                    }}>
-                    Refresh
-                  </button>
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    color="info"
+                    onClick={openDialog}>
+                    Add
+                  </Button>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -96,7 +92,7 @@ const todoTable = () => {
                   <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={e.todoId}>
                     <TableCell>{e.todoId}</TableCell>
                     <TableCell>{e.title}</TableCell>
-                    <TableCell>{e.desc}</TableCell>
+                    <TableCell colSpan={2}>{e.desc}</TableCell>
                   </TableRow>
                 );
               })}
