@@ -6,7 +6,10 @@ import {
   Button,
   Grid,
   Snackbar,
-  DialogActions
+  DialogActions,
+  Divider,
+  styled,
+  IconButton
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import {
@@ -20,11 +23,16 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api.class';
 import apiStorage from '../utils/apiStorage';
 import { useMutation } from 'react-query';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-const AddTodoForm = () => {
+interface AddTodoFormProps {
+  setOpenDialogState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
   const {
     data,
     mutate: newTodo,
@@ -49,6 +57,12 @@ const AddTodoForm = () => {
     }
   }, [isSuccess]);
 
+  const CustomDialogContent = styled(DialogContent)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  });
+
   return (
     <>
       <Snackbar open={openAlert} autoHideDuration={3000} onClose={() => setOpenAlert(false)}>
@@ -58,9 +72,23 @@ const AddTodoForm = () => {
         </Alert>
       </Snackbar>
       <DialogTitle variant="h4" align="center">
-        Add new Todo Task
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item xs={1}></Grid>
+          <Grid item xs>
+            Add new Todo Task
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton
+              onClick={() => {
+                setOpenDialogState(false);
+              }}>
+              <CancelIcon color="error" />
+            </IconButton>
+          </Grid>
+        </Grid>
       </DialogTitle>
-      <DialogContent>
+      <Divider />
+      <CustomDialogContent>
         <FormContainer
           onSuccess={(data: AddTodo) => {
             console.log({
@@ -94,7 +122,7 @@ const AddTodoForm = () => {
               </LocalizationProvider>
               <CheckboxElement name="important" label="Important" />
             </Grid>
-            <Grid item xs={8} sx={{ mt: '1rem' }}>
+            <Grid item xs={8}>
               <DialogActions>
                 <Button type="submit" fullWidth variant="contained">
                   Add Todo
@@ -103,7 +131,7 @@ const AddTodoForm = () => {
             </Grid>
           </Grid>
         </FormContainer>
-      </DialogContent>
+      </CustomDialogContent>
     </>
   );
 };
