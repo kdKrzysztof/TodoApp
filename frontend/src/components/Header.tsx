@@ -32,7 +32,6 @@ const Header = () => {
   const [auth, setAuth] = useState<Boolean>(false);
   const open = Boolean(anchorEl);
 
-
   useEffect(() => {
     setSidebarDisabled(sessionStorage?.token ? false : true);
     setAuth(sessionStorage?.token ? true : false);
@@ -61,16 +60,14 @@ const Header = () => {
       <Toolbar>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xs={1}>
-            {
-              <IconButton
-                color="inherit"
-                disabled={sidebarDisabled}
-                onClick={() => {
-                  setMenustate(!menustate);
-                }}>
-                <MenuIcon />
-              </IconButton>
-            }
+            <IconButton
+              color="inherit"
+              disabled={sidebarDisabled}
+              onClick={() => {
+                setMenustate(!menustate);
+              }}>
+              <MenuIcon />
+            </IconButton>
           </Grid>
           <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant="h4">To-Do List App</Typography>
