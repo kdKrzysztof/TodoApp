@@ -4,6 +4,7 @@ class SessionStorage {
   get refreshToken() {
     return sessionStorage.getItem('refreshToken') as string;
   }
+
   private set refreshToken(val: string) {
     sessionStorage.setItem('refreshToken', val);
   }
@@ -11,6 +12,7 @@ class SessionStorage {
   get token() {
     return sessionStorage.getItem('token') as string;
   }
+
   private set token(val: string) {
     sessionStorage.setItem('token', val);
   }

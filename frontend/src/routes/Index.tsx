@@ -41,7 +41,7 @@ const todoTable = () => {
     }
   }, [isError]);
 
-  const [openDialogState, setOpenDialogState] = useState(true);
+  const [openDialogState, setOpenDialogState] = useState(false);
   const openDialog = () => {
     setOpenDialogState(true);
   };
@@ -79,24 +79,33 @@ const todoTable = () => {
                     <AddTaskIcon />
                   </IconButton>
                 </TableCell>
+                <TableCell>
+                  <button
+                    onClick={() => {
+                      refetch();
+                    }}>
+                    Refresh
+                  </button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {isSuccess &&
-                data.data.map((e: receivedTodos) => {
-                  return (
-                    <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                      <TableCell>{e.todoId}</TableCell>
-                      <TableCell>{e.desc}</TableCell>
-                    </TableRow>
-                  );
-                })}
+              {data?.data.map((e: receivedTodos) => {
+                console.log(e);
+                return (
+                  <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={e.todoId}>
+                    <TableCell>{e.todoId}</TableCell>
+                    <TableCell>{e.title}</TableCell>
+                    <TableCell>{e.desc}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       </TableMainBody>
       <Dialog open={openDialogState} onClose={closeDialog} fullScreen={dialogFullScreen}>
-        <AddTodoForm setOpenDialogState={setOpenDialogState} />
+        <AddTodoForm setOpenDialogState={setOpenDialogState} refetchTodos={refetch} />
       </Dialog>
     </>
   );

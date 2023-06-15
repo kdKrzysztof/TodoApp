@@ -1,5 +1,3 @@
-import type { Dayjs } from "dayjs";
-
 export interface UpdateDesc {
   todoId: number;
   desc: string | undefined;
@@ -24,7 +22,7 @@ export interface AddTodo {
   title: string;
   desc: string;
   important: boolean;
-  pickedDate: Dayjs | null;
+  expiresIn: string | null;
 }
 
 export interface LogoutData {

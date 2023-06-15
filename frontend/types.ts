@@ -1,3 +1,7 @@
+import type { AxiosResponse } from 'axios';
+import type { Dayjs } from 'dayjs';
+import type { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from 'react-query';
+
 export interface receivedTodos {
   userId: number;
   todoId: number;
@@ -8,3 +12,16 @@ export interface receivedTodos {
   expiresIn: Date;
 }
 
+export interface AddTodoForm {
+  title: string;
+  desc: string;
+  important: boolean;
+  expiresIn: Dayjs | null;
+}
+
+export interface AddTodoFormProps {
+  setOpenDialogState: React.Dispatch<React.SetStateAction<boolean>>;
+  refetchTodos: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<AxiosResponse<any, any>, unknown>>;
+}

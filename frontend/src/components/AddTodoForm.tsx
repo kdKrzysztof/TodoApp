@@ -11,7 +11,6 @@ import {
   styled,
   IconButton
 } from '@mui/material';
-import { AxiosError } from 'axios';
 import {
   FormContainer,
   TextFieldElement,
@@ -22,27 +21,19 @@ import { AddTodo } from '../utils/api.types';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api.class';
 import apiStorage from '../utils/apiStorage';
-import { useMutation } from 'react-query';
 import React, { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { AxiosError } from 'axios';
+import { isDayjs } from 'dayjs';
+import type { AddTodoForm, AddTodoFormProps } from '../../types';
 
-interface AddTodoFormProps {
-  setOpenDialogState: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
-  const {
-    data,
-    mutate: newTodo,
-    isError,
-    error,
-    isSuccess
-  } = useMutation((data: AddTodo) => api.addTodo(data));
+const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState, refetchTodos }) => {
+  const { mutate: newTodo, isError, error } = useMutation((data: AddTodo) => api.addTodo(data));
 
   const [openAlert, setOpenAlert] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isError) {
@@ -50,12 +41,16 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
     }
   }, [isError]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      apiStorage.setLoginData(data);
-      navigate('/');
-    }
-  }, [isSuccess]);
+  const addNewTodo = async (data: AddTodoForm) => {
+    newTodo({
+      title: data?.title,
+      desc: data?.desc,
+      important: data?.important ?? false,
+      expiresIn: data?.expiresIn?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
+    });
+    await refetchTodos();  // I have no idea why body is not updating in time
+    setOpenDialogState(false);
+  };
 
   const CustomDialogContent = styled(DialogContent)({
     display: 'flex',
@@ -89,15 +84,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
       </DialogTitle>
       <Divider />
       <CustomDialogContent>
-        <FormContainer
-          onSuccess={(data: AddTodo) => {
-            console.log({
-              title: data?.title,
-              desc: data?.desc,
-              important: data?.important,
-              expiresIn: data?.pickedDate?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
-            });
-          }}>
+        <FormContainer onSuccess={addNewTodo}>
           <Grid container justifyContent="center" spacing={2} marginTop={0}>
             <Grid item xs={8}>
               <TextFieldElement name="title" label="Title" variant="outlined" required fullWidth />
@@ -118,6 +105,13 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
                   name="pickedDate"
                   label="Expiration Date"
                   sx={{ width: '100%' }}
+                  validation={{
+                    validate: (value) =>
+                      isDayjs(value) && value.isValid() ? true : 'Invalid date format'
+                  }}
+                  parseError={(err) => {
+                    return err?.message || 'Something went wrong';
+                  }}
                 />
               </LocalizationProvider>
               <CheckboxElement name="important" label="Important" />

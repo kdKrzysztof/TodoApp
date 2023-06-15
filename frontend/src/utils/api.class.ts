@@ -11,6 +11,16 @@ import type {
   UpdateTitle
 } from './api.types';
 
+const getAxiosConfig = (): AxiosRequestConfig => {
+  const token = sessionStorage.getItem('token');
+  const config: AxiosRequestConfig = {
+    headers: {
+      ['x-access-token']: token
+    }
+  };
+  return config;
+};
+
 class Api {
   public async updateDesc(data: UpdateDesc) {
     return await axios.patch(`api/todo/updateDesc/${data.todoId}`, data.desc);
@@ -29,7 +39,7 @@ class Api {
   }
 
   public async addTodo(data: AddTodo) {
-    return await axios.post('api/todo', data);
+    return await axios.post('api/todo', data, getAxiosConfig());
   }
 
   public async removeTodo(data: number) {
@@ -37,15 +47,7 @@ class Api {
   }
 
   public async getTodos(): Promise<AxiosResponse> {
-    const token = sessionStorage.getItem('token');
-
-    const config = {
-      headers: {
-        ['x-access-token']: token
-      }
-    };
-
-    return await axios.get('api/todo', config);
+    return await axios.get('api/todo', getAxiosConfig());
   }
 
   public async logout(data: LogoutData) {
