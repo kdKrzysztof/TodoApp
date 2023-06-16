@@ -54,7 +54,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
       title: data?.title,
       desc: data?.desc,
       important: data?.important ?? false,
-      expiresIn: data?.expiresIn?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
+      expiresIn: data?.pickedDate?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
     });
     setOpenDialogState(false);
   };

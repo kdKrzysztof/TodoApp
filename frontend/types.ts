@@ -16,7 +16,7 @@ export interface AddTodoForm {
   title: string;
   desc: string;
   important: boolean;
-  expiresIn: Dayjs | null;
+  pickedDate: Dayjs | null;
 }
 
 export interface AddTodoFormProps {

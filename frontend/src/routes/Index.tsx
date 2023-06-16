@@ -87,7 +87,7 @@ const todoTable = () => {
             </TableHead>
             <TableBody>
               {data?.data.map((e: receivedTodos) => {
-                console.log(e);
+                // console.log(e);
                 return (
                   <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={e.todoId}>
                     <TableCell>{e.todoId}</TableCell>
