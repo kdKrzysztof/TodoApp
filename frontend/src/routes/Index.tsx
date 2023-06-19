@@ -5,23 +5,25 @@ import { getNewRefreshToken } from '../utils/getNewRefreshToken';
 import { useNavigate } from 'react-router-dom';
 import { receivedTodos } from '../../types';
 import {
-  Button,
+  Container,
   Dialog,
+  Fab,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   useMediaQuery
 } from '@mui/material';
 import { styled } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import AddTodoForm from '../components/AddTodoForm';
-
-const todoTable = () => {
+import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
+import GradeIcon from '@mui/icons-material/Grade';
+import TodoDialog from '../components/TodoDialog';
+const todoList = () => {
   const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
     retry: false
@@ -41,70 +43,90 @@ const todoTable = () => {
     }
   }, [isError]);
 
-  const [openDialogState, setOpenDialogState] = useState(false);
-  const openDialog = () => {
-    setOpenDialogState(true);
+  const [openAddDialogState, setOpenAddDialogState] = useState(false);
+  const openAddDialog = () => {
+    setOpenAddDialogState(true);
   };
-  const closeDialog = () => {
-    setOpenDialogState(false);
+  const closeAddDialog = () => {
+    setOpenAddDialogState(false);
   };
 
   const theme = useTheme();
   const dialogFullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const TableMainBody = styled('div')({
+  const [openTodoDesc, setOpenTodoDesc] = useState(false);
+  const [todoDetails, setTodoDetails] = useState<receivedTodos>();
+  const openTodoDescDialog = (e: receivedTodos) => {
+    setTodoDetails(e);
+    setOpenTodoDesc(true);
+  };
+  const closeTodoDescDialog = () => {
+    setOpenTodoDesc(false);
+  };
+
+  const ListMainBody = styled(Container)({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100vw',
-    '& div': {
-      minWidth: '20rem',
-      width: '100vw',
-      maxWidth: '60vw'
-    }
+    marginTop: '2.5rem'
   });
 
+  const CustomListItem = styled(ListItem)({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    columnGap: '1rem'
+  });
+
+  const CustomFab = styled(Fab)({
+    margin: 0,
+    top: 'auto',
+    right: 30,
+    bottom: 30,
+    left: 'auto',
+    position: 'fixed'
+  });
   return (
     <>
-      <TableMainBody>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>TodoId</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Desc</TableCell>
-                <TableCell size="small" align="center" width="1rem">
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    color="info"
-                    onClick={openDialog}>
-                    Add
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.data.map((e: receivedTodos) => {
-                // console.log(e);
-                return (
-                  <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={e.todoId}>
-                    <TableCell>{e.todoId}</TableCell>
-                    <TableCell>{e.title}</TableCell>
-                    <TableCell colSpan={2}>{e.desc}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </TableMainBody>
-      <Dialog open={openDialogState} onClose={closeDialog} fullScreen={dialogFullScreen}>
-        <AddTodoForm setOpenDialogState={setOpenDialogState} refetchTodos={refetch} />
+      <ListMainBody maxWidth={false}>
+        <Paper>
+          <List key="TodoList">
+            {data?.data.map((e: receivedTodos) => {
+              return (
+                <>
+                  <CustomListItem key={e.todoId + e.title + e.todoId}>
+                    <IconButton>{e.important ? <GradeIcon /> : <GradeOutlinedIcon />}</IconButton>
+                    <ListItemButton onClick={() => openTodoDescDialog(e)} sx={{ height: '100%' }}>
+                      <ListItemText
+                        primary={e.title}
+                        secondary={e?.expiresIn?.toString()}
+                        sx={{
+                          '.MuiListItemText-primary': {
+                            fontSize: '1.1rem'
+                          }
+                        }}
+                      />
+                    </ListItemButton>
+                  </CustomListItem>
+                </>
+              );
+            })}
+          </List>
+        </Paper>
+      </ListMainBody>
+      <CustomFab variant="extended" color="primary" onClick={openAddDialog}>
+        <AddIcon />
+        Add Todo
+      </CustomFab>
+      <Dialog open={openTodoDesc} onClose={closeTodoDescDialog} fullScreen={dialogFullScreen}>
+        <TodoDialog todoDetails={todoDetails} />
+      </Dialog>
+      <Dialog open={openAddDialogState} onClose={closeAddDialog} fullScreen={dialogFullScreen}>
+        <AddTodoForm setOpenAddDialogState={setOpenAddDialogState} refetchTodos={refetch} />
       </Dialog>
     </>
   );
 };
 
-export default todoTable;
+export default todoList;

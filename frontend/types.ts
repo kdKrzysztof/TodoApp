@@ -20,8 +20,22 @@ export interface AddTodoForm {
 }
 
 export interface AddTodoFormProps {
-  setOpenDialogState: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenAddDialogState: React.Dispatch<React.SetStateAction<boolean>>;
   refetchTodos: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<AxiosResponse<any, any>, unknown>>;
+}
+
+export interface TodoDetails {
+  todoDetails:
+    | {
+        userId: number;
+        todoId: number;
+        title: string;
+        desc: string;
+        important: boolean;
+        createdAt: Date;
+        expiresIn: Date;
+      }
+    | undefined;
 }
