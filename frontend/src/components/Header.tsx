@@ -56,7 +56,11 @@ const Header = () => {
   }, [isSuccess]);
 
   return (
-    <AppBar position="fixed" color="primary" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar
+      component="nav"
+      position="static"
+      color="primary"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xs={1}>
