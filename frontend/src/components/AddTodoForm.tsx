@@ -28,7 +28,7 @@ import { AxiosError } from 'axios';
 import { isDayjs } from 'dayjs';
 import type { AddTodoForm, AddTodoFormProps } from '../../types';
 
-const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
+const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenAddDialogState }) => {
   const queryClient = useQueryClient();
   const {
     mutate: newTodo,
@@ -56,7 +56,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
       important: data?.important ?? false,
       expiresIn: data?.pickedDate?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
     });
-    setOpenDialogState(false);
+    setOpenAddDialogState(false);
   };
 
   const CustomDialogContent = styled(DialogContent)({
@@ -82,7 +82,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenDialogState }) => {
           <Grid item xs={1}>
             <IconButton
               onClick={() => {
-                setOpenDialogState(false);
+                setOpenAddDialogState(false);
               }}>
               <CancelIcon color="error" />
             </IconButton>
