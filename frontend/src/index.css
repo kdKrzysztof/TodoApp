@@ -14,10 +14,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-html {
-  min-height: 100vh;
-}
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -30,9 +26,9 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: flex-start;
   min-width: 320px;
-  min-height: 1fr;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
