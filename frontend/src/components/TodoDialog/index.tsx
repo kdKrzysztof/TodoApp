@@ -1,1 +1,1 @@
-export {default} from './TodoDialog'
+export { default } from './TodoDialog';

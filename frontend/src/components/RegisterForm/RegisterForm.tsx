@@ -1,17 +1,18 @@
-import { Typography, Grid, Button, Alert, AlertTitle, Snackbar, Divider } from '@mui/material';
+import { Alert, AlertTitle, Button, Divider, Grid, Snackbar, Typography } from '@mui/material';
+import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
 import {
   FormContainer,
-  TextFieldElement,
   PasswordElement,
-  PasswordRepeatElement
+  PasswordRepeatElement,
+  TextFieldElement
 } from 'react-hook-form-mui';
-import type { RegisterData } from '../../utils/api.types';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import apiStorage from '../../utils/apiStorage';
-import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
+
 import api from '../../utils/api.class';
+import type { RegisterData } from '../../utils/api.types';
+import apiStorage from '../../utils/apiStorage';
 
 const RegisterForm = () => {
   const {

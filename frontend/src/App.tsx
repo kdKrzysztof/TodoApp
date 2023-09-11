@@ -1,10 +1,12 @@
-import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
-import { Route, Routes } from 'react-router-dom';
-import Header from './components/Header/Header';
 import { ThemeProvider } from '@emotion/react';
-import { createContext, useState, useMemo, useEffect, lazy, Suspense } from 'react';
-import Sidebar from './components/Sidebar/Sidebar';
+import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import { Suspense, createContext, lazy, useEffect, useMemo, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+
+import Header from './components/Header/Header';
+import Sidebar from './components/Sidebar/Sidebar';
+
 const Index = lazy(() => import('./pages/Home'));
 const Register = lazy(() => import('./pages/Register'));
 const Login = lazy(() => import('./pages/Login'));

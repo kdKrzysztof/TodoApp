@@ -1,3 +1,7 @@
+import { AccountCircle } from '@mui/icons-material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
   Grid,
@@ -9,15 +13,12 @@ import {
   useTheme
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useContext, useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { ColorModeContext } from '../../App';
 import { SidebarContext } from '../../App';
-import { AccountCircle } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
 import api from '../../utils/api.class';
 import { LogoutData } from '../../utils/api.types';
 

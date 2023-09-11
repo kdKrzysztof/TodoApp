@@ -1,16 +1,18 @@
-import { useQuery } from 'react-query';
-import api from '../../utils/api.class';
-import { useEffect, useState } from 'react';
-import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
-import { useNavigate } from 'react-router-dom';
-import type { receivedTodos } from '../../../types';
-import { Dialog, List, Paper, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Dialog, List, Paper, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
+import type { receivedTodos } from '../../../types';
 import AddTodoForm from '../../components/AddTodoForm/AddTodoForm';
 import TodoDialog from '../../components/TodoDialog/TodoDialog';
 import TodoItem from '../../components/TodoItem';
-import { ListMainBody, CustomFab } from './Home.styles';
+import api from '../../utils/api.class';
+import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
+import { CustomFab, ListMainBody } from './Home.styles';
+
 const todoList = () => {
   const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
