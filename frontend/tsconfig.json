@@ -4,6 +4,17 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "src/*": [ "./src/*" ],
+      "src": ["./src"],
+      "components/*": [ "./src/components/*" ],
+      "components": [ "./src/components" ],
+      "utils/*": ["./src/utils/*"],
+      "utils": ["./src/utils"],
+      "pages/*": ["./src/pages/*"],
+      "pages": ["./src/pages"],
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -19,6 +30,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "types.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
