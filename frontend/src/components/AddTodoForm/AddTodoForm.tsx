@@ -1,32 +1,33 @@
+import CancelIcon from '@mui/icons-material/Cancel';
 import {
-  DialogTitle,
-  DialogContent,
   Alert,
   AlertTitle,
   Button,
-  Grid,
-  Snackbar,
   DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
-  styled,
-  IconButton
+  Grid,
+  IconButton,
+  Snackbar,
+  styled
 } from '@mui/material';
-import {
-  FormContainer,
-  TextFieldElement,
-  CheckboxElement,
-  DatePickerElement
-} from 'react-hook-form-mui';
-import { AddTodo } from '../../utils/api.types';
-import api from '../../utils/api.class';
-import React, { useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { AxiosError } from 'axios';
 import { isDayjs } from 'dayjs';
-import type { AddTodoForm, AddTodoFormProps } from '../../../types';
+import React, { useEffect, useState } from 'react';
+import {
+  CheckboxElement,
+  DatePickerElement,
+  FormContainer,
+  TextFieldElement
+} from 'react-hook-form-mui';
+import { useMutation, useQueryClient } from 'react-query';
+
+import type { AddNewTodo, AddTodoFormProps } from '../../../types';
+import api from '../../utils/api/api.class';
+import { AddTodo } from '../../utils/api/api.types';
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenAddDialogState }) => {
   const queryClient = useQueryClient();
@@ -49,7 +50,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenAddDialogState }) => {
     }
   }, [isError]);
 
-  const addNewTodo = async (data: AddTodoForm) => {
+  const addNewTodo = async (data: AddNewTodo) => {
     newTodo({
       title: data?.title,
       desc: data?.desc,

@@ -12,7 +12,7 @@ export interface receivedTodos {
   expiresIn: Date;
 }
 
-export interface AddTodoForm {
+export interface AddNewTodo {
   title: string;
   desc: string;
   important: boolean;
