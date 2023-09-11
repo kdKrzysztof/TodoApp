@@ -1,56 +1,30 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Dialog, List, Paper, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { api } from 'utils';
+import { Dialog, List, Paper } from '@mui/material';
 
 import { TodoDialog } from 'components';
 import { AddTodoForm } from 'components';
 import { TodoItem } from 'components';
 
-import type { receivedTodos } from '../../../types';
-import { getNewRefreshToken } from 'utils/getNewRefreshToken';
 import { CustomFab, ListMainBody } from './Home.styles';
+import { useHomeUtils } from './Home.utils';
+
+import type { receivedTodos } from 'types';
 
 const todoList = () => {
-  const { data, isError, refetch } = useQuery(['todoData'], {
-    queryFn: api.getTodos,
-    retry: false
-  });
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (isError) {
-      (async () => {
-        const result = await getNewRefreshToken();
-        if (result === false) {
-          sessionStorage.clear();
-          navigate('/login');
-        }
-        refetch();
-      })();
-    }
-  }, [isError]);
-
-  const [openAddDialogState, setOpenAddDialogState] = useState(false);
-  const openAddDialog = () => {
-    setOpenAddDialogState(true);
-  };
-  const closeAddDialog = () => {
-    setOpenAddDialogState(false);
-  };
-
-  const theme = useTheme();
-  const dialogFullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [openTodoDesc, setOpenTodoDesc] = useState(false);
-  const [todoDetails, setTodoDetails] = useState<receivedTodos>();
-  const closeTodoDescDialog = () => {
-    setOpenTodoDesc(false);
-  };
-
+  const {
+    closeTodoDescDialog,
+    data,
+    openTodoDesc,
+    refetch,
+    setOpenTodoDesc,
+    setTodoDetails,
+    todoDetails,
+    closeAddDialog,
+    dialogFullScreen,
+    openAddDialog,
+    openAddDialogState,
+    setOpenAddDialogState
+  } = useHomeUtils();
   return (
     <>
       <ListMainBody maxWidth={false}>
@@ -68,6 +42,7 @@ const todoList = () => {
                   expiresIn={e.expiresIn}
                   setTodoDetails={setTodoDetails}
                   setOpenTodoDesc={setOpenTodoDesc}
+                  key={e.todoId}
                 />
               );
             })}
