@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import api from '../utils/api.class';
+import api from '../../utils/api.class';
 import { useEffect, useState } from 'react';
-import { getNewRefreshToken } from '../utils/getNewRefreshToken';
+import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
 import { useNavigate } from 'react-router-dom';
-import { receivedTodos } from '../../types';
+import { receivedTodos } from '../../../types';
 import {
   Container,
   Dialog,
@@ -16,13 +16,13 @@ import {
   Paper,
   useMediaQuery
 } from '@mui/material';
-import { styled } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
-import AddTodoForm from '../components/AddTodoForm';
+import AddTodoForm from '../../components/AddTodoForm';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import GradeIcon from '@mui/icons-material/Grade';
-import TodoDialog from '../components/TodoDialog';
+import TodoDialog from '../../components/TodoDialog';
+import { ListMainBody, CustomListItem, CustomFab, CustomListItemButton } from './Home.styles';
 const todoList = () => {
   const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
@@ -64,29 +64,6 @@ const todoList = () => {
     setOpenTodoDesc(false);
   };
 
-  const ListMainBody = styled(Container)({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100vw',
-    marginTop: '2.5rem'
-  });
-
-  const CustomListItem = styled(ListItem)({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    columnGap: '1rem'
-  });
-
-  const CustomFab = styled(Fab)({
-    margin: 0,
-    top: 'auto',
-    right: 30,
-    bottom: 30,
-    left: 'auto',
-    position: 'fixed'
-  });
   return (
     <>
       <ListMainBody maxWidth={false}>
@@ -98,14 +75,9 @@ const todoList = () => {
                   <CustomListItem key={e.todoId + e.title + e.todoId}>
                     <IconButton>{e.important ? <GradeIcon /> : <GradeOutlinedIcon />}</IconButton>
                     <ListItemButton onClick={() => openTodoDescDialog(e)} sx={{ height: '100%' }}>
-                      <ListItemText
+                      <CustomListItemButton
                         primary={e.title}
                         secondary={e?.expiresIn?.toString()}
-                        sx={{
-                          '.MuiListItemText-primary': {
-                            fontSize: '1.1rem'
-                          }
-                        }}
                       />
                     </ListItemButton>
                   </CustomListItem>
