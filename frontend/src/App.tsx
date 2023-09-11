@@ -5,7 +5,7 @@ import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import Sidebar from './components/Sidebar';
 import { blue } from '@mui/material/colors';
-const Index = lazy(() => import('./pages/Index'));
+const Index = lazy(() => import('./pages/Home'));
 const Register = lazy(() => import('./pages/Register'));
 const Login = lazy(() => import('./pages/Login'));
 
