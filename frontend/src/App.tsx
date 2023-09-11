@@ -6,10 +6,14 @@ import { Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
-const Index = lazy(() => import('./pages/Home'));
-const Register = lazy(() => import('./pages/Register'));
-const Login = lazy(() => import('./pages/Login'));
+// const Index = lazy(() => import('./pages/Home'));
+// const Register = lazy(() => import('./pages/Register'));
+// const Login = lazy(() => import('./pages/Login'));
+// ^^ turned off lazy loading because of messy css loading
 
 interface SidebarContextValue {
   menustate: boolean;
@@ -73,7 +77,7 @@ const App = () => {
               path="/"
               element={
                 <Suspense fallback={<></>}>
-                  <Index />
+                  <Home />
                 </Suspense>
               }
             />
