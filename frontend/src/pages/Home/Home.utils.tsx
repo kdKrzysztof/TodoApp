@@ -1,33 +1,15 @@
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-import { api } from 'src/utils';
-import { getNewRefreshToken } from 'src/utils/getNewRefreshToken';
+import useGetNewRefreshToken from './hooks/useGetNewRefreshToken';
+import useGetTodos from './hooks/useGetTodos';
 
 import { receivedTodos } from 'types';
 
 export const useHomeUtils = () => {
-  const { data, isError, refetch } = useQuery(['todoData'], {
-    queryFn: api.getTodos,
-    retry: false
-  });
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (isError) {
-      (async () => {
-        const result = await getNewRefreshToken();
-        if (result === false) {
-          sessionStorage.clear();
-          navigate('/login');
-        }
-        refetch();
-      })();
-    }
-  }, [isError]);
+  const { isError, data, refetch } = useGetTodos();
+  useGetNewRefreshToken({ isError, refetch });
 
   const [openAddDialogState, setOpenAddDialogState] = useState(false);
   const openAddDialog = () => {
