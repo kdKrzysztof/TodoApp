@@ -24,9 +24,3 @@ export const CustomFab = styled(Fab)({
   left: 'auto',
   position: 'fixed'
 });
-
-export const CustomListItemButton = styled(ListItemText)({
-  ['.MuiListItemText-primary']: {
-    fontSize: '1.1rem'
-  }
-});

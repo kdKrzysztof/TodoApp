@@ -3,26 +3,14 @@ import api from '../../utils/api.class';
 import { useEffect, useState } from 'react';
 import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
 import { useNavigate } from 'react-router-dom';
-import { receivedTodos } from '../../../types';
-import {
-  Container,
-  Dialog,
-  Fab,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-  useMediaQuery
-} from '@mui/material';
+import type { receivedTodos } from 'types';
+import { Dialog, IconButton, List, ListItemButton, Paper, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
-import AddTodoForm from '../../components/AddTodoForm';
-import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-import GradeIcon from '@mui/icons-material/Grade';
-import TodoDialog from '../../components/TodoDialog';
-import { ListMainBody, CustomListItem, CustomFab, CustomListItemButton } from './Home.styles';
+import AddTodoForm from '../../components/AddTodoForm/AddTodoForm';
+import TodoDialog from '../../components/TodoDialog/TodoDialog';
+import TodoItem from '../../components/TodoItem';
+import { ListMainBody, CustomListItem, CustomFab } from './Home.styles';
 const todoList = () => {
   const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
@@ -72,15 +60,7 @@ const todoList = () => {
             {data?.data.map((e: receivedTodos) => {
               return (
                 <>
-                  <CustomListItem key={e.todoId + e.title + e.todoId}>
-                    <IconButton>{e.important ? <GradeIcon /> : <GradeOutlinedIcon />}</IconButton>
-                    <ListItemButton onClick={() => openTodoDescDialog(e)} sx={{ height: '100%' }}>
-                      <CustomListItemButton
-                        primary={e.title}
-                        secondary={e?.expiresIn?.toString()}
-                      />
-                    </ListItemButton>
-                  </CustomListItem>
+                  <TodoItem />
                 </>
               );
             })}
