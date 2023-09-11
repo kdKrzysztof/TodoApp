@@ -23,7 +23,7 @@ const TodoItem = ({
     setOpenTodoDesc(true);
   };
   return (
-    <CustomListItem key={todoId + title + todoId}>
+    <CustomListItem>
       <IconButton>{important ? <GradeIcon /> : <GradeOutlinedIcon />}</IconButton>
       <ListItemButton
         onClick={() =>
