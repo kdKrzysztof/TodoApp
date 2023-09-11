@@ -1,4 +1,4 @@
-import { Container, Fab, ListItem } from '@mui/material';
+import { Container, Fab } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const ListMainBody = styled(Container)({
@@ -7,13 +7,6 @@ export const ListMainBody = styled(Container)({
   alignItems: 'center',
   width: '100vw',
   marginTop: '2.5rem'
-});
-
-export const CustomListItem = styled(ListItem)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  columnGap: '1rem'
 });
 
 export const CustomFab = styled(Fab)({

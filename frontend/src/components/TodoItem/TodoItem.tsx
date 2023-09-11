@@ -2,10 +2,10 @@ import GradeIcon from '@mui/icons-material/Grade';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { IconButton, ListItemButton } from '@mui/material';
 
-import { receivedTodos } from '../../../types';
-import { CustomListItem } from '../../pages/Home/Home.styles';
-import { CustomListItemButton } from './TodoItem.styles';
+import { CustomListItem, CustomListItemButton } from './TodoItem.styles';
 import type { TodoItemParams } from './TodoItem.types';
+
+import { receivedTodos } from 'types';
 
 const TodoItem = ({
   todoId,
