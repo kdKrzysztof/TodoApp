@@ -1,5 +1,6 @@
 import axios from 'axios';
-import type { AxiosResponse, AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+
 import type {
   AddTodo,
   LoginData,
