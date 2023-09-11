@@ -5,9 +5,9 @@ import { ThemeProvider } from '@emotion/react';
 import { createContext, useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import Sidebar from './components/Sidebar';
 import { blue } from '@mui/material/colors';
-const Index = lazy(() => import('./routes/Index'));
-const Register = lazy(() => import('./routes/Register'));
-const Login = lazy(() => import('./routes/Login'));
+const Index = lazy(() => import('./pages/Index'));
+const Register = lazy(() => import('./pages/Register'));
+const Login = lazy(() => import('./pages/Login'));
 
 interface SidebarContextValue {
   menustate: boolean;
