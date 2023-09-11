@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, List, ListItem, SwipeableDrawer, Typography } from '@mui/material';
 import { useContext } from 'react';
-import { SidebarContext } from '../App';
+import { SidebarContext } from '../../App';
 import { blue } from '@mui/material/colors';
 import { useTheme } from '@mui/material';
 

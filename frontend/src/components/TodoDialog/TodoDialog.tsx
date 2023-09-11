@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import { DialogContent, DialogTitle, Divider } from '@mui/material';
-import { TodoDetails } from '../../types';
+import { TodoDetails } from '../../../types';
 
 const TodoDialog: React.FC<TodoDetails> = ({ todoDetails }) => {
   const CustomDialogContent = styled(DialogContent)({

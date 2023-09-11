@@ -5,13 +5,13 @@ import {
   PasswordElement,
   PasswordRepeatElement
 } from 'react-hook-form-mui';
-import type { RegisterData } from '../utils/api.types'
+import type { RegisterData } from '../../utils/api.types';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import apiStorage from '../utils/apiStorage';
+import apiStorage from '../../utils/apiStorage';
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
-import api from '../utils/api.class';
+import api from '../../utils/api.class';
 
 const RegisterForm = () => {
   const {

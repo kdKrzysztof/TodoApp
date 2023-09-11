@@ -17,8 +17,8 @@ import {
   CheckboxElement,
   DatePickerElement
 } from 'react-hook-form-mui';
-import { AddTodo } from '../utils/api.types';
-import api from '../utils/api.class';
+import { AddTodo } from '../../utils/api.types';
+import api from '../../utils/api.class';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -26,7 +26,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { AxiosError } from 'axios';
 import { isDayjs } from 'dayjs';
-import type { AddTodoForm, AddTodoFormProps } from '../../types';
+import type { AddTodoForm, AddTodoFormProps } from '../../../types';
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenAddDialogState }) => {
   const queryClient = useQueryClient();

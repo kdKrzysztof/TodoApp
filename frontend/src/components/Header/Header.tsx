@@ -13,13 +13,13 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useContext, useEffect, useState } from 'react';
-import { ColorModeContext } from '../App';
-import { SidebarContext } from '../App';
+import { ColorModeContext } from '../../App';
+import { SidebarContext } from '../../App';
 import { AccountCircle } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import api from '../utils/api.class';
-import { LogoutData } from '../utils/api.types';
+import api from '../../utils/api.class';
+import { LogoutData } from '../../utils/api.types';
 
 const Header = () => {
   const theme = useTheme();
