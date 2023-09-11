@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { Suspense, createContext, lazy, useEffect, useMemo, useState } from 'react';
+import { Suspense, createContext, useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header/Header';
