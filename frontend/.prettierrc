@@ -4,5 +4,17 @@
   "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "none",
-  "jsxBracketSameLine": true
+  "jsxBracketSameLine": true,
+  "importOrder": [
+    "^src",
+    "^components",
+    "^components/(.*)$",
+    "^utils/(.*)$",
+    "^pages",
+    "^pages/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
