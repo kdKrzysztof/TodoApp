@@ -2,8 +2,9 @@ import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
 
-import RegisterForm from '../../components/RegisterForm/RegisterForm';
-import apiStorage from '../../utils/apiStorage.class';
+import { RegisterForm } from 'components';
+
+import apiStorage from 'utils/apiStorage.class';
 
 const Register = () => {
   if (apiStorage.token) {

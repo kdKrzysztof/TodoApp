@@ -25,9 +25,10 @@ import {
 } from 'react-hook-form-mui';
 import { useMutation, useQueryClient } from 'react-query';
 
-import type { AddNewTodo, AddTodoFormProps } from '../../../types';
-import api from '../../utils/api/api.class';
-import { AddTodo } from '../../utils/api/api.types';
+import { api } from 'utils';
+import type { AddTodo } from 'utils/api/api.types';
+
+import type { AddNewTodo, AddTodoFormProps } from 'types';
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ setOpenAddDialogState }) => {
   const queryClient = useQueryClient();
