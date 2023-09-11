@@ -3,14 +3,14 @@ import api from '../../utils/api.class';
 import { useEffect, useState } from 'react';
 import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
 import { useNavigate } from 'react-router-dom';
-import type { receivedTodos } from 'types';
-import { Dialog, IconButton, List, ListItemButton, Paper, useMediaQuery } from '@mui/material';
+import type { receivedTodos } from '../../../types';
+import { Dialog, List, Paper, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import AddTodoForm from '../../components/AddTodoForm/AddTodoForm';
 import TodoDialog from '../../components/TodoDialog/TodoDialog';
 import TodoItem from '../../components/TodoItem';
-import { ListMainBody, CustomListItem, CustomFab } from './Home.styles';
+import { ListMainBody, CustomFab } from './Home.styles';
 const todoList = () => {
   const { data, isError, refetch } = useQuery(['todoData'], {
     queryFn: api.getTodos,
@@ -44,10 +44,6 @@ const todoList = () => {
 
   const [openTodoDesc, setOpenTodoDesc] = useState(false);
   const [todoDetails, setTodoDetails] = useState<receivedTodos>();
-  const openTodoDescDialog = (e: receivedTodos) => {
-    setTodoDetails(e);
-    setOpenTodoDesc(true);
-  };
   const closeTodoDescDialog = () => {
     setOpenTodoDesc(false);
   };
@@ -59,9 +55,17 @@ const todoList = () => {
           <List key="TodoList">
             {data?.data.map((e: receivedTodos) => {
               return (
-                <>
-                  <TodoItem />
-                </>
+                <TodoItem
+                  userId={e.userId}
+                  todoId={e.todoId}
+                  title={e.title}
+                  desc={e.desc}
+                  important={e.important}
+                  createdAt={e.createdAt}
+                  expiresIn={e.expiresIn}
+                  setTodoDetails={setTodoDetails}
+                  setOpenTodoDesc={setOpenTodoDesc}
+                />
               );
             })}
           </List>
