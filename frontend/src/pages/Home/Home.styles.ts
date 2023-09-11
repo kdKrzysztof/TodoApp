@@ -1,4 +1,4 @@
-import { Container, Fab, ListItem, ListItemText } from '@mui/material';
+import { Container, Fab, ListItem } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const ListMainBody = styled(Container)({
