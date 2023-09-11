@@ -1,5 +1,6 @@
-import apiStorage from './apiStorage';
-import api from './api.class';
+import { api } from 'utils';
+
+import apiStorage from './apiStorage.class';
 
 export const getNewRefreshToken = async () => {
   const refToken = sessionStorage.getItem('refreshToken');

@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
 
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
-import apiStorage from '../../utils/apiStorage';
+import apiStorage from '../../utils/apiStorage.class';
 
 const Register = () => {
   if (apiStorage.token) {

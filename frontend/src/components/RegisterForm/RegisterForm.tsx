@@ -10,9 +10,9 @@ import {
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-import api from '../../utils/api.class';
-import type { RegisterData } from '../../utils/api.types';
-import apiStorage from '../../utils/apiStorage';
+import api from '../../utils/api/api.class';
+import type { RegisterData } from '../../utils/api/api.types';
+import apiStorage from '../../utils/apiStorage.class';
 
 const RegisterForm = () => {
   const {

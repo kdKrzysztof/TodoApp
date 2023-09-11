@@ -19,8 +19,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ColorModeContext } from '../../App';
 import { SidebarContext } from '../../App';
-import api from '../../utils/api.class';
-import { LogoutData } from '../../utils/api.types';
+import api from '../../utils/api/api.class';
+import { LogoutData } from '../../utils/api/api.types';
 
 const Header = () => {
   const theme = useTheme();

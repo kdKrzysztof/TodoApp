@@ -4,13 +4,14 @@ import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { api } from 'utils';
+
+import { TodoDialog } from 'components';
+import { AddTodoForm } from 'components';
+import { TodoItem } from 'components';
 
 import type { receivedTodos } from '../../../types';
-import AddTodoForm from '../../components/AddTodoForm/AddTodoForm';
-import TodoDialog from '../../components/TodoDialog/TodoDialog';
-import TodoItem from '../../components/TodoItem';
-import api from '../../utils/api.class';
-import { getNewRefreshToken } from '../../utils/getNewRefreshToken';
+import { getNewRefreshToken } from 'utils/getNewRefreshToken';
 import { CustomFab, ListMainBody } from './Home.styles';
 
 const todoList = () => {

@@ -7,9 +7,9 @@ import { FormContainer, PasswordElement, TextFieldElement } from 'react-hook-for
 import { useMutation } from 'react-query';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import api from '../../utils/api.class';
-import type { LoginData } from '../../utils/api.types';
-import apiStorage from '../../utils/apiStorage';
+import api from '../../utils/api/api.class';
+import type { LoginData } from '../../utils/api/api.types';
+import apiStorage from '../../utils/apiStorage.class';
 
 const Login = () => {
   const navigate = useNavigate();
