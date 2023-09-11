@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/system';
-import RegisterForm from '../components/RegisterForm';
-import apiStorage from '../utils/apiStorage';
+import RegisterForm from '../../components/RegisterForm';
+import apiStorage from '../../utils/apiStorage';
 import { Navigate } from 'react-router-dom';
 
 const Register = () => {
