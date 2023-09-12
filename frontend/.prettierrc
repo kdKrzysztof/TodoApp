@@ -14,7 +14,8 @@
     "^pages",
     "^pages/(.*)$",
     "^[./]",
-    "^types"
+    "^types",
+    "^api.types"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
