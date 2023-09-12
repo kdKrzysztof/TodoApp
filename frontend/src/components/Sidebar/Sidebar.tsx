@@ -18,6 +18,7 @@ const Sidebar = () => {
   const drawerWidth = 240;
   return (
     <SwipeableDrawer
+      disableScrollLock
       variant="temporary"
       open={menustate}
       onClose={handleMenuClose}

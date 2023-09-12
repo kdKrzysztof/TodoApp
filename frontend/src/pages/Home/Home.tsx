@@ -54,10 +54,10 @@ const todoList = () => {
         <AddIcon />
         Add Todo
       </CustomFab>
-      <Dialog open={openTodoDesc} onClose={closeTodoDescDialog} fullScreen={dialogFullScreen}>
+      <Dialog open={openTodoDesc} onClose={closeTodoDescDialog} fullScreen={dialogFullScreen} disableScrollLock>
         <TodoDialog todoDetails={todoDetails} />
       </Dialog>
-      <Dialog open={openAddDialogState} onClose={closeAddDialog} fullScreen={dialogFullScreen}>
+      <Dialog open={openAddDialogState} onClose={closeAddDialog} fullScreen={dialogFullScreen} disableScrollLock>
         <AddTodoForm setOpenAddDialogState={setOpenAddDialogState} refetchTodos={refetch} />
       </Dialog>
     </>
