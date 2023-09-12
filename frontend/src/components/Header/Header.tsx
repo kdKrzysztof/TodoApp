@@ -2,61 +2,24 @@ import { AccountCircle } from '@mui/icons-material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  AppBar,
-  Grid,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography,
-  useTheme
-} from '@mui/material';
+import { AppBar, Grid, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { useContext, useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ColorModeContext } from 'src/App';
-import { SidebarContext } from 'src/App';
-
-import { api } from 'utils';
-
-import type { LogoutData } from 'api.types';
+import useHeaderUtils from './Header.utils';
 
 const Header = () => {
-  const theme = useTheme();
-  const location = useLocation();
-  const colorMode = useContext(ColorModeContext);
-  const navigate = useNavigate();
-  const { menustate, setMenustate } = useContext(SidebarContext);
-  const [sidebarDisabled, setSidebarDisabled] = useState(true);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [auth, setAuth] = useState<Boolean>(false);
-  const open = Boolean(anchorEl);
-
-  useEffect(() => {
-    setSidebarDisabled(sessionStorage?.token ? false : true);
-    setAuth(sessionStorage?.token ? true : false);
-  }, [location]);
-
-  const handleAccountButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    anchorEl ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
-  };
-
-  const { mutate: logout, isSuccess } = useMutation((data: LogoutData) => api.logout(data));
-
-  const logoutButtonClick = () => {
-    const refreshToken = sessionStorage.refreshToken;
-    logout({ refreshToken: refreshToken });
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      sessionStorage.clear();
-      navigate('/login');
-    }
-  }, [isSuccess]);
+  const {
+    anchorEl,
+    auth,
+    colorMode,
+    logoutButtonClick,
+    menustate,
+    setMenustate,
+    sidebarDisabled,
+    theme,
+    open,
+    handleAccountButtonClick
+  } = useHeaderUtils();
 
   return (
     <AppBar
