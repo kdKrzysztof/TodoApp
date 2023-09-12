@@ -25,6 +25,7 @@ const todoList = () => {
     openAddDialogState,
     setOpenAddDialogState
   } = useHomeUtils();
+
   return (
     <>
       <ListMainBody maxWidth={false}>

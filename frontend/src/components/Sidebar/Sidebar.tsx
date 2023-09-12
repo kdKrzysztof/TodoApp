@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useContext } from 'react';
 
-import { SidebarContext } from '../../App';
+import { SidebarContext } from 'src/App';
 
 const Sidebar = () => {
   const { menustate, setMenustate } = useContext(SidebarContext);

@@ -14,7 +14,8 @@
       "utils": ["./src/utils"],
       "pages/*": ["./src/pages/*"],
       "pages": ["./src/pages"],
-      "types": ["./types.ts"]
+      "types": ["./types.ts"],
+      "api.types": ["./src/utils/api/api.types.ts"]
     },
 
     /* Bundler mode */

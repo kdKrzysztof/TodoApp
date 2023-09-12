@@ -11,9 +11,9 @@ import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { api } from 'utils';
-
-import type { RegisterData } from 'utils/api/api.types';
 import apiStorage from 'utils/apiStorage.class';
+
+import type { RegisterData } from 'api.types';
 
 const RegisterForm = () => {
   const {

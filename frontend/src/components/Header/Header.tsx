@@ -17,11 +17,12 @@ import { useContext, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ColorModeContext } from 'src/App';
+import { SidebarContext } from 'src/App';
+
 import { api } from 'utils';
 
-import { ColorModeContext } from '../../App';
-import { SidebarContext } from '../../App';
-import type { LogoutData } from 'utils/api/api.types';
+import type { LogoutData } from 'api.types';
 
 const Header = () => {
   const theme = useTheme();
