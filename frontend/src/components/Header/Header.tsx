@@ -2,9 +2,10 @@ import { AccountCircle } from '@mui/icons-material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Grid, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
+import { Grid, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 
+import { CustomAppBar, CustomGridContainer, GridTitle, GridTooltip } from './Header.styles';
 import useHeaderUtils from './Header.utils';
 
 const Header = () => {
@@ -22,13 +23,9 @@ const Header = () => {
   } = useHeaderUtils();
 
   return (
-    <AppBar
-      component="nav"
-      position="static"
-      color="primary"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <CustomAppBar>
       <Toolbar>
-        <Grid container direction="row" justifyContent="center" alignItems="center">
+        <CustomGridContainer container>
           <Grid item xs={1}>
             <IconButton
               color="inherit"
@@ -39,10 +36,10 @@ const Header = () => {
               <MenuIcon />
             </IconButton>
           </Grid>
-          <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <GridTitle item xs>
             <Typography variant="h4">To-Do List App</Typography>
-          </Grid>
-          <Grid item xs={1} display="flex" sx={{ justifyContent: 'flex-end', width: '100%' }}>
+          </GridTitle>
+          <GridTooltip item xs={1}>
             <Tooltip title="Change theme">
               <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -52,16 +49,16 @@ const Header = () => {
               <Tooltip title={anchorEl ? '' : 'Open settings'}>
                 <IconButton size="large" color="inherit" onClick={handleAccountButtonClick}>
                   <AccountCircle />
-                  <Menu anchorEl={anchorEl} open={open}>
+                  <Menu anchorEl={anchorEl} open={open} disableScrollLock>
                     <MenuItem onClick={logoutButtonClick}>Logout</MenuItem>
                   </Menu>
                 </IconButton>
               </Tooltip>
             ) : null}
-          </Grid>
-        </Grid>
+          </GridTooltip>
+        </CustomGridContainer>
       </Toolbar>
-    </AppBar>
+    </CustomAppBar>
   );
 };
 
