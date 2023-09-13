@@ -15,7 +15,6 @@ const todoList = () => {
     closeTodoDescDialog,
     data,
     openTodoDesc,
-    refetch,
     setOpenTodoDesc,
     setTodoDetails,
     todoDetails,
@@ -54,11 +53,19 @@ const todoList = () => {
         <AddIcon />
         Add Todo
       </CustomFab>
-      <Dialog open={openTodoDesc} onClose={closeTodoDescDialog} fullScreen={dialogFullScreen} disableScrollLock>
+      <Dialog
+        open={openTodoDesc}
+        onClose={closeTodoDescDialog}
+        fullScreen={dialogFullScreen}
+        disableScrollLock>
         <TodoDialog todoDetails={todoDetails} />
       </Dialog>
-      <Dialog open={openAddDialogState} onClose={closeAddDialog} fullScreen={dialogFullScreen} disableScrollLock>
-        <AddTodoForm setOpenAddDialogState={setOpenAddDialogState} refetchTodos={refetch} />
+      <Dialog
+        open={openAddDialogState}
+        onClose={closeAddDialog}
+        fullScreen={dialogFullScreen}
+        disableScrollLock>
+        <AddTodoForm setOpenAddDialogState={setOpenAddDialogState} />
       </Dialog>
     </>
   );

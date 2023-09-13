@@ -11,29 +11,20 @@ import {
   Snackbar
 } from '@mui/material';
 import { AxiosError } from 'axios';
-import { useState } from 'react';
 import { CheckboxElement, FormContainer, TextFieldElement } from 'react-hook-form-mui';
 
 import { CustomDialogContent } from './AddTodoForm.styles';
+import useAddTodoFormUtils from './AddTodoForm.utils';
 import DatePicker from './DatePicker';
-import { useNewTodo } from './hooks';
 
-import type { AddNewTodo, AddTodoFormProps } from 'types';
+import type { AddTodoFormProps } from 'types';
 
 const AddTodoForm = ({ setOpenAddDialogState }: AddTodoFormProps) => {
-  const [openAlert, setOpenAlert] = useState(false);
-  const { error, isError, newTodo } = useNewTodo({ setOpenAlert });
-
-  const addNewTodo = async (data: AddNewTodo) => {
-    newTodo({
-      title: data?.title,
-      desc: data?.desc,
-      important: data?.important ?? false,
-      expiresIn: data?.pickedDate?.format('YYYY-MM-DD HH:mm:ss.SSS ZZ') ?? null
-    });
-    setOpenAddDialogState(false);
-  };
-
+  
+  const { addNewTodo, isError, error, openAlert, setOpenAlert } = useAddTodoFormUtils({
+    setOpenAddDialogState
+  });
+  
   return (
     <>
       <Snackbar open={openAlert} autoHideDuration={3000} onClose={() => setOpenAlert(false)}>
