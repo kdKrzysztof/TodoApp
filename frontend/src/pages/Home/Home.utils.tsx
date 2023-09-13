@@ -35,7 +35,6 @@ export const useHomeUtils = () => {
     openTodoDesc,
     todoDetails,
     closeTodoDescDialog,
-    refetch,
     openAddDialog,
     dialogFullScreen,
     openAddDialogState,
