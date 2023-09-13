@@ -1,45 +1,19 @@
 import { Alert, AlertTitle, Button, Divider, Grid, Snackbar, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
 import {
   FormContainer,
   PasswordElement,
   PasswordRepeatElement,
   TextFieldElement
 } from 'react-hook-form-mui';
-import { useMutation } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { api } from 'utils';
-import apiStorage from 'utils/apiStorage.class';
+import useRegisterFormUtils from './RegisterForm.utils';
 
 import type { RegisterData } from 'api.types';
 
 const RegisterForm = () => {
-  const {
-    data,
-    mutate: register,
-    isError,
-    error,
-    isSuccess
-  } = useMutation((data: RegisterData) => api.register(data));
-
-  const [openAlert, setOpenAlert] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isError) {
-      setOpenAlert(true);
-    }
-  }, [isError]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      apiStorage.setLoginData(data);
-      navigate('/');
-    }
-  }, [isSuccess]);
-
+  const { error, isError, openAlert, register, setOpenAlert } = useRegisterFormUtils();
   return (
     <>
       <Snackbar open={openAlert} autoHideDuration={3000} onClose={() => setOpenAlert(false)}>
