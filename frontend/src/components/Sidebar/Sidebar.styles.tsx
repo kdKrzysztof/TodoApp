@@ -1,7 +1,12 @@
-import { Avatar, Box, List, ListItem, SwipeableDrawer, styled, useTheme } from '@mui/material';
+import { Avatar, Box, List, ListItem, SwipeableDrawer, styled } from '@mui/material';
 import { blue } from '@mui/material/colors';
 
-const theme = useTheme();
+export const UserDetailsAvatar = styled(Avatar)(({ theme }) => ({
+  width: 56,
+  height: 56,
+  backgroundColor: theme.palette.mode === 'light' ? blue[500] : 'whitesmoke'
+}));
+
 const drawerWidth = 240;
 export const CustomSwipeableDrawer = styled(SwipeableDrawer)({
   width: drawerWidth,
@@ -19,11 +24,6 @@ export const UserDetailsListItem = styled(ListItem)({
 export const UserDetailsList = styled(List)({
   paddingTop: '5rem'
 });
-
-export const UserDetailsAvatar = styled(Avatar)([
-  { width: 56, height: 56 },
-  theme.palette.mode === 'light' ? { bgcolor: blue[500] } : { bgcolor: 'whitesmoke' }
-]);
 
 export const UserDetailsBox = styled(Box)({
   display: 'flex',
