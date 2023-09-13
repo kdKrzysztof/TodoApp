@@ -8,6 +8,7 @@ import { useRegister } from './hooks';
 const useRegisterFormUtils = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const navigate = useNavigate();
+  
   const { isError, error, isSuccess, register, data } = useRegister();
 
   useEffect(() => {

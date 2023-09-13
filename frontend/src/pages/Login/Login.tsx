@@ -1,59 +1,23 @@
 import { Alert, AlertTitle, Button, Divider, Grid, Snackbar } from '@mui/material';
 import { Box, Paper, Typography } from '@mui/material';
-import { styled } from '@mui/system';
 import type { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
 import { FormContainer, PasswordElement, TextFieldElement } from 'react-hook-form-mui';
-import { useMutation } from 'react-query';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
-import { api } from 'utils';
-import type { LoginData } from 'utils/api/api.types';
-import apiStorage from 'utils/apiStorage.class';
+import apiStorage from 'src/utils/apiStorage.class';
+
+import { LoginContainer } from './Login.styles';
+import useLoginUtils from './Login.utils';
+
+import type { LoginData } from 'api.types';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [openAlert, setOpenAlert] = useState(false);
-  const {
-    data,
-    mutate: login,
-    isSuccess,
-    isError,
-    error
-  } = useMutation((data: LoginData) => api.login(data));
+  const { error, login, isError, setOpenAlert, openAlert } = useLoginUtils();
 
+  // Check before login component renders
   if (apiStorage.token) {
     return <Navigate to="/" />;
   }
-
-  useEffect(() => {
-    if (isSuccess) {
-      apiStorage.setLoginData(data);
-      navigate('/');
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (isError) {
-      console.log((error as AxiosError<{ message: string }>).response?.data?.message);
-      setOpenAlert(true);
-    }
-  }, [isError]);
-
-  const LoginContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    width: '100vw',
-    height: '100%',
-    '& > :not(style)': {
-      margin: theme.spacing(1),
-      height: 'auto',
-      paddingTop: '2rem',
-      paddingBottom: '2rem'
-    }
-  }));
 
   return (
     <>
