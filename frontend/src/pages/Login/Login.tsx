@@ -1,5 +1,4 @@
 import { Alert, AlertTitle, Button, Divider, Grid, Snackbar } from '@mui/material';
-import { Box } from '@mui/material';
 import type { AxiosError } from 'axios';
 import { FormContainer, PasswordElement, TextFieldElement } from 'react-hook-form-mui';
 import { Link, Navigate } from 'react-router-dom';
